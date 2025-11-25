@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zodiac Protocol: Final Artifact</title>
-    <meta name="description" content="Deep Time Identity Survival Tool. Offline Capable.">
+    <title>Zodiac Protocol: Chimera Artifact</title>
     <style>
         /* -------------------------------------------------------
-           SCREEN MODE: THE TERMINAL (Dark, Hacker, Secure)
+           SCREEN MODE: THE TERMINAL (Visual Feedback)
            ------------------------------------------------------- */
         :root {
-            --bg: #0a0a0a;
-            --ink: #00ff41; /* Cyberpunk Green */
-            --dim: #444;
+            --bg: #050505;
+            --ink: #00ff41; /* Hacker Green */
             --panel: #111;
             --border: #333;
         }
@@ -21,85 +19,71 @@
             background-color: var(--bg);
             color: var(--ink);
             font-family: 'Courier New', Courier, monospace;
-            padding: 20px;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
-        /* THE BLACK BOX CHASSIS */
-        .z-chassis {
-            width: 100%;
-            max-width: 800px;
+        /* THE CHASSIS */
+        .z-container {
             border: 2px solid var(--border);
             background: var(--panel);
-            padding: 20px;
+            padding: 30px;
             box-shadow: 0 0 40px rgba(0, 255, 65, 0.05);
-            box-sizing: border-box;
         }
 
         h1 {
             text-align: center;
-            border-bottom: 2px solid var(--ink);
-            padding-bottom: 15px;
-            margin-top: 0;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 1.5rem;
+            border-bottom: 2px solid var(--ink);
+            padding-bottom: 20px;
+            letter-spacing: 4px;
+            margin: 0 0 30px 0;
+            font-size: 1.4em;
         }
 
         /* INPUTS */
-        .z-controls {
-            display: grid;
-            gap: 20px;
-            grid-template-columns: 1fr 2fr;
-            margin-bottom: 20px;
-        }
+        .z-group { margin-bottom: 20px; }
         
-        @media (max-width: 600px) { .z-controls { grid-template-columns: 1fr; } }
-
-        .z-group { display: flex; flex-direction: column; }
-
         label {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: bold;
-            color: #888;
-            margin-bottom: 5px;
+            color: #666;
+            margin-bottom: 8px;
+            display: block;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
         input {
             background: #000;
-            border: 1px solid var(--dim);
+            border: 1px solid var(--border);
             color: #fff;
-            padding: 12px;
-            font-family: inherit;
-            font-size: 16px;
+            padding: 15px;
             width: 100%;
             box-sizing: border-box;
+            font-family: inherit;
+            font-size: 18px;
         }
         input:focus { outline: 1px solid var(--ink); }
 
-        /* OUTPUT SCREEN */
+        /* DIGITAL OUTPUT */
         .z-screen {
+            border: 2px dashed var(--border);
             background: #000;
-            border: 2px dashed var(--dim);
             padding: 20px;
             text-align: center;
             margin-bottom: 30px;
-            display: none; /* Hidden until active */
+            display: none; 
         }
 
         .z-key {
-            display: block;
-            font-size: 1.4rem;
+            font-size: 24px;
             font-weight: bold;
             color: #fff;
             letter-spacing: 2px;
             word-break: break-all;
+            display: block;
             margin: 15px 0;
         }
 
@@ -107,7 +91,7 @@
             background: var(--ink);
             color: #000;
             border: none;
-            padding: 10px 25px;
+            padding: 10px 20px;
             font-weight: bold;
             text-transform: uppercase;
             cursor: pointer;
@@ -115,10 +99,9 @@
         }
         button:hover { background: #fff; }
 
-        /* THE GRID */
+        /* THE GRID ARTIFACT */
         .z-grid-wrapper {
             overflow-x: auto;
-            margin-top: 20px;
             border: 1px solid var(--border);
         }
 
@@ -126,39 +109,40 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 12px;
-            min-width: 300px;
             table-layout: fixed;
-        }
-
-        th {
-            background: #1a1a1a;
-            color: #888;
-            padding: 8px;
-            font-size: 10px;
-            border: 1px solid #222;
+            min-width: 600px;
         }
 
         td {
             border: 1px solid #222;
-            padding: 8px 2px;
+            padding: 10px 2px;
             text-align: center;
-            color: #555; /* Noise is dim */
-            white-space: nowrap;
+            color: #444; /* Screen Noise is dim */
             overflow: hidden;
+            white-space: nowrap;
+            font-family: monospace;
+        }
+        
+        th { 
+            background: #1a1a1a;
+            color: #666; 
+            font-size: 10px; 
+            padding: 5px; 
+            border: 1px solid #222;
         }
 
-        /* HIGHLIGHTS (Screen Only) */
+        /* SCREEN HIGHLIGHTS (Hidden on Print) */
         td.planted {
             color: var(--ink);
-            font-weight: bold;
             border: 1px solid var(--ink);
-            background: rgba(0,255,65,0.05);
+            font-weight: bold;
+            background: rgba(0, 255, 65, 0.05);
         }
 
         /* MANUAL */
         .z-manual {
             margin-top: 40px;
-            border-top: 1px solid var(--dim);
+            border-top: 1px solid var(--border);
             padding-top: 20px;
             font-size: 11px;
             line-height: 1.6;
@@ -167,35 +151,35 @@
         .hl { color: var(--ink); font-weight: bold; }
 
         /* -------------------------------------------------------
-           PRINT MODE: THE STEALTH SPREADSHEET
+           PRINT MODE: STEALTH & CLEANLINESS
            ------------------------------------------------------- */
         @media print {
-            body {
-                background: white;
+            body { 
+                background: white; 
+                padding: 0; 
+                margin: 0; 
                 color: black;
-                padding: 0;
-                display: block;
             }
-            .z-chassis {
-                border: none;
-                box-shadow: none;
-                padding: 0;
+            .z-container { 
+                border: none; 
+                box-shadow: none; 
+                padding: 0; 
                 max-width: 100%;
             }
             
-            /* Hide Interactive Elements */
-            .z-controls, .z-screen, button, h1 {
-                display: none !important;
-            }
-
-            /* Show and Clean Grid */
-            .z-grid-wrapper {
+            /* HIDE UI ELEMENTS */
+            .z-group, button, .z-screen, h1 { display: none !important; }
+            
+            /* CLEAN GRID STYLES */
+            .z-grid-wrapper { 
                 border: none;
-                display: block !important;
+                display: block !important; 
+                margin-top: 0;
             }
-            table {
-                border: 2px solid black;
-                font-size: 10px;
+            table { 
+                border: 2px solid black; 
+                font-size: 10px; 
+                width: 100%;
             }
             th {
                 color: black !important;
@@ -205,16 +189,17 @@
             }
             td {
                 border: 1px solid black !important;
-                color: black !important; /* Force Black */
-                background: transparent !important; /* Remove Highlight */
-                font-weight: normal !important; /* Remove Bold */
-                box-shadow: none !important;
+                color: black !important; /* FORCE BLACK TEXT */
+                background: transparent !important; /* REMOVE HIGHLIGHT BG */
+                font-weight: normal !important; /* REMOVE BOLD */
+                box-shadow: none !important; /* REMOVE GLOW */
             }
-
-            /* Show Manual */
-            .z-manual {
-                color: black !important;
-                border-top: 2px solid black;
+            
+            /* KEEP MANUAL VISIBLE BUT CLEAN */
+            .z-manual { 
+                display: block !important; 
+                color: black !important; 
+                border-top: 2px solid black; 
                 margin-top: 20px;
             }
             .hl { color: black !important; text-decoration: underline; }
@@ -223,38 +208,45 @@
 </head>
 <body>
 
-<div class="z-chassis">
+<div class="z-container">
     <h1>Zodiac // Chimera</h1>
 
-    <div class="z-controls">
-        <div class="z-group">
-            <label>1. The Vector (Digits)</label>
-            <input type="text" id="zCode" placeholder="e.g. 510081" oninput="runSystem()">
-        </div>
-        <div class="z-group">
-            <label>2. The Echo (Text)</label>
-            <input type="text" id="zText" placeholder="Memorized sentence..." oninput="runSystem()">
-        </div>
+    <!-- INPUTS -->
+    <div class="z-group">
+        <label>1. The Vector (Code)</label>
+        <input type="text" id="zCode" placeholder="e.g. 510081" oninput="runChimera()">
     </div>
 
-    <div id="zResult" class="z-screen">
+    <div class="z-group">
+        <label>2. The Echo (Text)</label>
+        <input type="text" id="zText" placeholder="The quick brown fox..." oninput="runChimera()">
+    </div>
+
+    <!-- DIGITAL OUTPUT -->
+    <div id="zOutput" class="z-screen">
         <label>GENERATED KEY (VERIFICATION)</label>
-        <span id="zPass" class="z-key">---</span>
-        <button onclick="copyKey()">Copy to Clipboard</button>
+        <span id="zFinalPass" class="z-key">---</span>
+        <button onclick="copyPass()">Copy to Clipboard</button>
     </div>
 
-    <div id="zGridArea" class="z-grid-wrapper"></div>
+    <!-- THE ARTIFACT -->
+    <div class="z-grid-wrapper" id="zGridArea"></div>
 
+    <!-- THE MANUAL -->
     <div class="z-manual">
         <strong>SURVIVAL MANUAL (BLACK HOLE PROTOCOL)</strong><br>
-        If this artifact is lost, reconstruct the password in the dirt.<br><br>
+        If this paper is lost, reconstruct the password in the dirt.<br><br>
         
         <strong>1. THE BRAID:</strong> Pair every Digit of your Vector with a Word from your Text.<br>
-        <strong>2. THE MANTRA:</strong> Write <span class="hl">Head(Cap) + Tail(Low) + Digit + Symbol(Len)</span>.<br>
-        &nbsp;&nbsp;&nbsp;<em>Example: "Fox" + Digit 5 -> F + x + 5 + # -> <strong>Fx5#</strong></em><br>
-        <strong>3. THE MAP:</strong> 1=! 2=@ 3=# 4=$ 5=% 6=^ 7=& 8=* 9=( 0=)<br><br>
-        
-        <strong>GRID RECOVERY:</strong><br>
+        <strong>2. THE MANTRA:</strong> For each pair, write 4 characters: <span class="hl">Head + Tail + Digit + Symbol</span>.<br>
+           &nbsp;&nbsp;&nbsp;- <strong>Head:</strong> First letter (Uppercase).<br>
+           &nbsp;&nbsp;&nbsp;- <strong>Tail:</strong> Last letter (Lowercase).<br>
+           &nbsp;&nbsp;&nbsp;- <strong>Digit:</strong> The Vector digit.<br>
+           &nbsp;&nbsp;&nbsp;- <strong>Symbol:</strong> Based on Word Length (see Map).<br>
+           &nbsp;&nbsp;&nbsp;<em>Example: "Fox" (Len 3) + Digit 5 &rarr; <strong>Fx5#</strong></em><br>
+        <strong>3. THE MAP:</strong> 1=! 2=@ 3=# 4=$ 5=% 6=^ 7=& 8=* 9=( 0=)<br>
+        <br>
+        <strong>GRID RECOVERY (DIAGONAL SPREAD):</strong><br>
         - Segment 1 is at <strong>Row [Digit 1], Column 0</strong>.<br>
         - Segment 2 is at <strong>Row [Digit 2], Column 1</strong>.<br>
         - Segment 3 is at <strong>Row [Digit 3], Column 2</strong>...<br>
@@ -263,117 +255,129 @@
 </div>
 
 <script>
-    function runSystem() {
-        // 1. INPUT HYGIENE
-        const code = document.getElementById('zCode').value.replace(/[^0-9]/g, '');
-        // Strip punctuation, keep only alpha-numeric + spaces
-        const text = document.getElementById('zText').value.replace(/[^a-zA-Z0-9\s]/g, '').trim();
+    function runChimera() {
+        const codeRaw = document.getElementById('zCode').value.replace(/[^0-9]/g, '');
+        // Sanitize: Remove punctuation, allow alpha + space
+        const textRaw = document.getElementById('zText').value.replace(/[^a-zA-Z0-9\s]/g, '').trim();
+        const display = document.getElementById('zOutput');
         
-        const screen = document.getElementById('zResult');
-        
-        if(!code || !text) {
-            screen.style.display = 'none';
+        if (!codeRaw || !textRaw) {
+            display.style.display = 'none';
             document.getElementById('zGridArea').innerHTML = '';
             return;
         }
 
-        // 2. GENERATE CHIMERA SEGMENTS
-        const map = [")","!","@","#","$","%","^","&","*","("]; // 0-9 Map
-        const words = text.split(/\s+/);
+        // 1. SYMBOL MAP (Shift+Number)
+        const map = [")","!","@","#","$","%","^","&","*","("]; 
+        const words = textRaw.split(/\s+/);
         
-        let segments = [];
+        let realSegments = [];
         let fullPass = "";
 
-        for(let i=0; i<code.length; i++) {
-            let digit = code[i];
-            let word = words[i % words.length];
+        // 2. GENERATE CHIMERA SEGMENTS
+        for(let i=0; i<codeRaw.length; i++) {
+            let digit = codeRaw[i];
+            let word = words[i % words.length]; // Loop text if needed
             
             // Head (First Cap)
             let head = word.charAt(0).toUpperCase();
-            // Tail (Last Low) - If word is 1 char, tail is same as head but lower
+            // Tail (Last Low)
             let tail = word.charAt(word.length - 1).toLowerCase();
-            // Length
+            // Length & Symbol
             let len = word.length;
-            // Symbol
             let sym = map[len % 10];
 
+            // MANTRA: Head + Tail + Digit + Sym
             let seg = head + tail + digit + sym;
-            segments.push(seg);
+            
+            realSegments.push(seg);
             fullPass += seg;
         }
 
-        // 3. COLLISION-PROOF PLANTING (Diagonal Spread)
-        // Row = Digit. Column = Sequence Index % 10.
+        // 3. CALCULATE TARGETS (Diagonal Spread Logic)
+        // Row = The Digit Value. 
+        // Col = The Sequence Index (0, 1, 2...) wrapping at 10.
         let targets = [];
-        for(let i=0; i<segments.length; i++) {
-            let r = parseInt(code[i]);
+        for(let i=0; i<realSegments.length; i++) {
+            let r = parseInt(codeRaw[i]);
             let c = i % 10; 
             
-            // If multiple segments hit same cell (e.g. >10 digits), append.
+            // Handle Collision: If we wrap around to an existing cell, append.
             let existing = targets.find(t => t.r === r && t.c === c);
             if(existing) {
-                existing.val += segments[i];
+                existing.val += realSegments[i];
             } else {
-                targets.push({ r: r, c: c, val: segments[i] });
+                targets.push({ r: r, c: c, val: realSegments[i] });
             }
         }
 
         // 4. RENDER GRID
-        const area = document.getElementById('zGridArea');
-        area.innerHTML = "";
-        const tbl = document.createElement('table');
+        const container = document.getElementById('zGridArea');
+        container.innerHTML = "";
         
-        // Header
+        const table = document.createElement('table');
+        
+        // Header Row
         const trH = document.createElement('tr');
-        trH.appendChild(document.createElement('th'));
+        trH.appendChild(document.createElement('th')); // Corner
         for(let i=0; i<10; i++) {
             let th = document.createElement('th');
             th.innerText = i;
             trH.appendChild(th);
         }
-        tbl.appendChild(trH);
+        table.appendChild(trH);
 
-        // Rows
+        // Grid Body
         for(let r=0; r<10; r++) {
             const tr = document.createElement('tr');
+            
+            // Row Label
             let th = document.createElement('th');
             th.innerText = r;
             tr.appendChild(th);
 
             for(let c=0; c<10; c++) {
                 const td = document.createElement('td');
+                
+                // Check for Real Data
                 let plant = targets.find(t => t.r === r && t.c === c);
                 
                 if(plant) {
                     td.innerText = plant.val;
-                    td.className = "planted";
+                    td.className = 'planted'; // Highlight Class
                 } else {
-                    // GASLIGHT: Generate fake segment (Cap+Low+Digit+Sym)
-                    td.innerText = noise();
+                    // GASLIGHT ENGINE: Generate Fake Data (Same Structure)
+                    td.innerText = makeNoise();
                 }
                 tr.appendChild(td);
             }
-            tbl.appendChild(tr);
+            table.appendChild(tr);
         }
-        area.appendChild(tbl);
+        container.appendChild(table);
 
         // 5. OUTPUT
-        document.getElementById('zPass').innerText = fullPass;
-        screen.style.display = 'block';
+        document.getElementById('zFinalPass').innerText = fullPass;
+        display.style.display = 'block';
     }
 
-    // GASLIGHT GENERATOR
-    function noise() {
-        const c = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        const l = "abcdefghijklmnopqrstuvwxyz";
-        const n = "0123456789";
-        const s = ")!@#$%^&*(";
-        return c[rn(c)] + l[rn(l)] + n[rn(n)] + s[rn(s)];
+    // GASLIGHT NOISE GENERATOR
+    // Mimics: Cap + Low + Digit + Symbol
+    function makeNoise() {
+        const caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const lows = "abcdefghijklmnopqrstuvwxyz";
+        const nums = "0123456789";
+        const syms = ")!@#$%^&*(";
+        
+        let h = caps[Math.floor(Math.random() * caps.length)];
+        let t = lows[Math.floor(Math.random() * lows.length)];
+        let d = nums[Math.floor(Math.random() * nums.length)];
+        let s = syms[Math.floor(Math.random() * syms.length)];
+        
+        return h + t + d + s;
     }
-    function rn(str) { return Math.floor(Math.random() * str.length); }
-    
-    function copyKey() {
-        navigator.clipboard.writeText(document.getElementById('zPass').innerText);
+
+    function copyPass() {
+        navigator.clipboard.writeText(document.getElementById('zFinalPass').innerText);
         alert("Secured.");
     }
 </script>
