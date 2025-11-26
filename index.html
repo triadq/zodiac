@@ -3,22 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zodiac Protocol: Infinity Edition</title>
+<title>Zodiac Protocol: The Infinity Artifact</title>
+<meta name="description" content="Deep Time Identity Survival System. Offline Capable. Zero Dependencies.">
 <style>
     /* -------------------------------------------------------
-       SCREEN STYLES (THE TERMINAL)
+       THE CHASSIS (SCREEN MODE)
        ------------------------------------------------------- */
     :root {
-        --bg: #0d0d0d;
+        --bg: #050505;
         --ink: #00ff41; /* Terminal Green */
         --dim: #444;
-        --panel: #161616;
+        --panel: #111;
         --border: #333;
     }
 
     body {
         font-family: 'Courier New', Courier, monospace;
-        background: var(--bg);
+        background-color: var(--bg);
         color: var(--text);
         padding: 40px;
         max-width: 900px;
@@ -26,6 +27,7 @@
         line-height: 1.6;
     }
 
+    /* HEADERS */
     h1 {
         color: var(--ink);
         border-bottom: 2px solid var(--ink);
@@ -34,6 +36,7 @@
         letter-spacing: 4px;
         text-align: center;
         margin-top: 0;
+        font-size: 1.6em;
     }
 
     .subtitle {
@@ -49,10 +52,12 @@
     .manifesto {
         border-left: 4px solid var(--ink);
         padding: 20px;
-        background: #111;
+        background: #0a0a0a;
         color: #ccc;
         font-size: 0.9em;
         margin-bottom: 40px;
+        border: 1px solid var(--border);
+        border-left-width: 4px;
     }
     .manifesto strong { color: #fff; }
 
@@ -67,6 +72,9 @@
 
     .z-row { display: flex; gap: 20px; margin-bottom: 20px; }
     .z-group { flex: 1; display: flex; flex-direction: column; }
+
+    /* Responsive Mobile */
+    @media (max-width: 600px) { .z-row { flex-direction: column; } }
 
     label {
         font-size: 10px;
@@ -86,6 +94,7 @@
         font-size: 18px;
         box-sizing: border-box;
         transition: border 0.2s;
+        border-radius: 4px;
     }
     input:focus { outline: none; border-color: var(--ink); }
 
@@ -97,18 +106,27 @@
         font-weight: bold;
         text-transform: uppercase;
         cursor: pointer;
-        font-size: 12px;
+        font-size: 11px;
         border: none;
+        border-radius: 4px;
+        letter-spacing: 1px;
+        transition: all 0.2s;
     }
 
     .btn-random {
-        background: #333;
-        color: #fff;
-        border: 1px solid #555;
+        background: #222;
+        color: #888;
+        border: 1px solid #444;
     }
     .btn-random:hover { background: #fff; color: #000; }
 
-    /* OUTPUT */
+    .btn-copy {
+        background: var(--ink);
+        color: #000;
+    }
+    .btn-copy:hover { background: #fff; }
+
+    /* OUTPUT SCREEN */
     .z-screen {
         display: none;
         background: #000;
@@ -128,16 +146,11 @@
         word-break: break-all;
     }
 
-    .btn-copy {
-        background: var(--ink);
-        color: #000;
-    }
-    .btn-copy:hover { background: #fff; }
-
-    /* GRID */
+    /* THE GRID */
     .grid-wrapper {
         overflow-x: auto;
         border: 1px solid var(--border);
+        margin-top: 20px;
     }
 
     table {
@@ -159,10 +172,11 @@
         border: 1px solid #222;
         padding: 8px 2px;
         text-align: center;
-        color: #555; 
+        color: #555; /* Noise Color */
         font-family: monospace;
         white-space: nowrap;
         overflow: hidden;
+        font-size: 12px;
     }
 
     /* HIGHLIGHTS (Screen Only) */
@@ -180,18 +194,47 @@
         padding-top: 20px;
         color: #888;
         font-size: 11px;
+        line-height: 1.6;
     }
     .hl { color: var(--ink); font-weight: bold; }
+
+    /* TOAST NOTIFICATION */
+    .toast {
+        visibility: hidden;
+        min-width: 250px;
+        background-color: var(--ink);
+        color: #000;
+        text-align: center;
+        border-radius: 2px;
+        padding: 16px;
+        position: fixed;
+        z-index: 100;
+        left: 50%;
+        bottom: 30px;
+        transform: translateX(-50%);
+        font-weight: bold;
+        box-shadow: 0 0 20px rgba(0,255,65,0.4);
+        opacity: 0;
+        transition: opacity 0.3s, bottom 0.3s;
+        font-size: 12px;
+        text-transform: uppercase;
+    }
+
+    .toast.show {
+        visibility: visible;
+        opacity: 1;
+        bottom: 50px;
+    }
 
     /* PRINT SUMMARY (Hidden on Screen) */
     .print-summary { display: none; }
 
     /* -------------------------------------------------------
-       PRINT MODE (THE VAULT RECORD)
+       PRINT MODE (CLEAN BACKUP)
        ------------------------------------------------------- */
     @media print {
         body { background: white; color: black; padding: 0; margin: 0; }
-        .manifesto, .z-controls, .z-screen, h1, .subtitle, .btn-row { display: none !important; }
+        .manifesto, .z-controls, .z-screen, h1, .subtitle, .btn-row, button { display: none !important; }
         
         /* Show Print Header */
         .print-summary {
@@ -206,7 +249,7 @@
         .print-val { font-size: 14px; font-weight: bold; display: block; margin-top: 2px; }
 
         /* Clean Grid */
-        .grid-wrapper { border: none; display: block !important; }
+        .grid-wrapper { border: none; display: block !important; margin-top: 0; }
         table { border: 2px solid black; font-size: 10px; }
         th { color: black !important; background: #ddd !important; border: 1px solid black !important; }
         td { 
@@ -230,22 +273,22 @@
 
     <div class="manifesto">
         <strong>THE PREFACE:</strong><br>
-        The ultimate point of failure isn't the cryptography; it's the human brain's ability to forget. This tool creates a system that is easy to remember but mathematically impossible to guess. It survives even if the internet goes dark.
+        The ultimate point of failure isn't the cryptography or the steganography; it's the human brain's ability to forget the system itself. Spitting out infinite systems is easy. Creating one that is unforgettable is the real challenge. This is an alternative to closed-gate "black box" algorithms where no one remembers their passwords. This tool sends a light that survives even if the digital world goes dark.
     </div>
 
-    <!-- PRINT SUMMARY (Visible only on Print) -->
+    <!-- PRINT SUMMARY (Visible only on Paper) -->
     <div class="print-summary">
         <div style="text-align:center; font-weight:bold; border-bottom:2px solid black; margin-bottom:15px; padding-bottom:10px;">ZODIAC VAULT RECORD</div>
         <div class="print-row">
-            <span class="print-label">1. The Vector (Code)</span>
+            <span class="print-label">1. The Vector (Date)</span>
             <span class="print-val" id="pCode">---</span>
         </div>
         <div class="print-row">
-            <span class="print-label">2. The Echo (Source Text)</span>
+            <span class="print-label">2. The Echo (Memorized Text)</span>
             <span class="print-val" id="pText">---</span>
         </div>
         <div class="print-row">
-            <span class="print-label">3. The Generated Key (Password)</span>
+            <span class="print-label">3. The Generated Key</span>
             <span class="print-val" id="pPass">---</span>
         </div>
     </div>
@@ -253,8 +296,8 @@
     <div class="z-controls">
         <div class="z-row">
             <div class="z-group">
-                <label>1. The Vector (Any Numbers)</label>
-                <input type="text" id="zCode" placeholder="e.g. 510081" oninput="runZodiac()">
+                <label>1. The Vector (Date)</label>
+                <input type="text" id="zCode" placeholder="e.g. 150181" oninput="runZodiac()" maxlength="10" pattern="\d*">
             </div>
             <div class="z-group">
                 <label>2. The Echo (Memorized Text)</label>
@@ -268,7 +311,7 @@
     </div>
 
     <div id="zOutput" class="z-screen">
-        <label>GENERATED KEY</label>
+        <label style="font-size:10px; color:#888; font-weight:bold; display:block; margin-bottom:5px;">GENERATED KEY</label>
         <span id="zFinalPass" class="z-key">---</span>
         <button class="btn-copy" onclick="copyKey()">Copy to Clipboard</button>
     </div>
@@ -276,22 +319,43 @@
     <div id="zGridArea" class="grid-wrapper"></div>
 
     <div class="z-manual">
-        <strong>SURVIVAL MANUAL (BLACK HOLE PROTOCOL)</strong><br>
-        1. <strong>BRAID:</strong> Pair every Digit of your Vector with a Word from your Text.<br>
-           &nbsp;&nbsp;&nbsp;<em>(If you have more digits than words, loop back to the first word. They never collide.)</em><br>
+        <strong>SURVIVAL BLACK HOLE PROTOCOL</strong><br>
+        If this artifact is lost, reconstruct the password using <strong>Chimera Logic</strong>.<br><br>
+        1. <strong>BRAID:</strong> Pair the first Digits of your Vector with Words from your Text.<br>
         2. <strong>MANTRA:</strong> For each pair, write 4 chars: <span class="hl">HEAD(Cap) + TAIL(Low) + DIGIT + SYMBOL(Len)</span>.<br>
-           &nbsp;&nbsp;&nbsp;<em>Ex: "Fox" (Len 3) + Digit 5 -> F + x + 5 + # -> <strong>Fx5#</strong></em><br>
         3. <strong>MAP:</strong> 1=! 2=@ 3=# 4=$ 5=% 6=^ 7=& 8=* 9=( 0=)<br>
         <br>
-        <strong>GRID RECOVERY (DIAGONAL SPREAD):</strong><br>
-        - Segment 1: <strong>Row [Digit 1], Column 0</strong><br>
-        - Segment 2: <strong>Row [Digit 2], Column 1</strong><br>
-        - ... Segment N: <strong>Row [Digit N], Column [N-1 % 10]</strong>.
+        <strong>EXAMPLE:</strong><br>
+        Vector: <strong>5</strong>... &nbsp;&nbsp; Text: <strong>"Fox"</strong> (Length 3)<br>
+        1. <strong>Head:</strong> "F" (First letter Cap)<br>
+        2. <strong>Tail:</strong> "x" (Last letter Low)<br>
+        3. <strong>Digit:</strong> "1" (From Date)<br>
+        4. <strong>Sym:</strong> "#" (Length is 3 -> Shift+1 is !)<br>
+        <strong>RESULT: Fx1!</strong><br>
+        <br>
+        <strong>GRID RECOVERY:</strong><br>
+        Start at Column 0. The Row is your Digit.<br>
+        - Segment 1: <strong>Row [Digit 1], Col 0</strong>.<br>
+        - Segment 2: <strong>Row [Digit 2], Col 1</strong>.<br>
+        - ... Segment N: <strong>Row [Digit N], Col [N-1]</strong>.
     </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Password Secured in Clipboard</div>
 
 <script>
     function runZodiac() {
-        const codeRaw = document.getElementById('zCode').value.replace(/[^0-9]/g, '');
+        // 1. SANITIZE & TRUNCATE
+        let codeRaw = document.getElementById('zCode').value.replace(/[^0-9]/g, '');
+        
+        // HARD LIMIT: 10 Digits (Prevents Grid Collision)
+        if (codeRaw.length > 10) {
+            codeRaw = codeRaw.substring(0, 10);
+            // Update UI to reflect limit if user pasted too much
+            document.getElementById('zCode').value = codeRaw; 
+        }
+
+        // Sanitize Text: Letters/Numbers only, keep spaces for word separation
         const textRaw = document.getElementById('zText').value.replace(/[^a-zA-Z0-9\s]/g, '').trim();
         const display = document.getElementById('zOutput');
         
@@ -306,7 +370,8 @@
             return;
         }
 
-        // 1. MAP & LOGIC
+        // 2. MAP & LOGIC
+        // 0=)  1=! ... 9=(
         const map = [")","!","@","#","$","%","^","&","*","("]; 
         const words = textRaw.split(/\s+/);
         
@@ -317,35 +382,35 @@
             let digit = codeRaw[i];
             let word = words[i % words.length]; // Infinite Word Loop
             
+            // Robustness: Handle words
+            if(!word) continue;
+
             let head = word.charAt(0).toUpperCase();
             let tail = word.charAt(word.length - 1).toLowerCase();
             let len = word.length;
             let sym = map[len % 10];
 
+            // Chimera Segment: Head + Tail + Digit + Sym
             let seg = head + tail + digit + sym;
             segments.push(seg);
             fullPass += seg;
         }
 
-        // 2. TARGET CALCULATION
+        // 3. TARGET CALCULATION
+        // Since Max Digits is 10, Columns are 0,1,2...9. No collision possible.
         let targets = [];
         for(let i=0; i<segments.length; i++) {
             let r = parseInt(codeRaw[i]);
-            let c = i % 10; // Column loops 0-9 based on sequence
-            
-            let existing = targets.find(t => t.r === r && t.c === c);
-            if(existing) {
-                existing.val += segments[i];
-            } else {
-                targets.push({ r: r, c: c, val: segments[i] });
-            }
+            let c = i; 
+            targets.push({ r: r, c: c, val: segments[i] });
         }
 
-        // 3. RENDER
+        // 4. RENDER GRID
         const container = document.getElementById('zGridArea');
         container.innerHTML = "";
         const tbl = document.createElement('table');
         
+        // Header Row
         const trH = document.createElement('tr');
         trH.appendChild(document.createElement('th'));
         for(let i=0; i<10; i++) {
@@ -355,6 +420,7 @@
         }
         tbl.appendChild(trH);
 
+        // Grid Body
         for(let r=0; r<10; r++) {
             const tr = document.createElement('tr');
             let th = document.createElement('th');
@@ -363,13 +429,15 @@
 
             for(let c=0; c<10; c++) {
                 const td = document.createElement('td');
+                // Lookup planting
                 let plant = targets.find(t => t.r === r && t.c === c);
                 
                 if(plant) {
                     td.innerText = plant.val;
                     td.className = "planted";
                 } else {
-                    td.innerText = noise();
+                    // Gaslight Noise with Mimicry
+                    td.innerText = makeNoise(segments);
                 }
                 tr.appendChild(td);
             }
@@ -377,42 +445,63 @@
         }
         container.appendChild(tbl);
 
-        // 4. OUTPUTS
+        // 5. OUTPUTS
         document.getElementById('zFinalPass').innerText = fullPass;
         document.getElementById('pPass').innerText = fullPass;
         display.style.display = 'block';
     }
 
-    function noise() {
-        const c = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        const l = "abcdefghijklmnopqrstuvwxyz";
-        const n = "0123456789";
-        const s = ")!@#$%^&*(";
-        return c[rn(c)] + l[rn(l)] + n[rn(n)] + s[rn(s)];
+    // CAMOUFLAGE ENGINE
+    function makeNoise(passwordSegments) {
+        let heads = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        let tails = "abcdefghijklmnopqrstuvwxyz";
+        let digits = "0123456789";
+        let syms = ")!@#$%^&*(";
+
+        // If we have password data, pollute the noise pool with it
+        if(passwordSegments && passwordSegments.length > 0) {
+            let obsH = "", obsT = "", obsD = "", obsS = "";
+            passwordSegments.forEach(seg => {
+                if(seg.length >= 4) {
+                    obsH += seg[0]; obsT += seg[1];
+                    obsD += seg[2]; obsS += seg[3];
+                }
+            });
+            // Mix observed chars into random pools
+            heads += obsH.repeat(5); 
+            tails += obsT.repeat(5);
+            digits += obsD.repeat(5);
+            syms += obsS.repeat(5);
+        }
+
+        return heads[rn(heads)] + tails[rn(tails)] + digits[rn(digits)] + syms[rn(syms)];
     }
+
     function rn(s) { return Math.floor(Math.random() * s.length); }
 
     function copyKey() {
-        navigator.clipboard.writeText(document.getElementById('zFinalPass').innerText);
-        alert("Secured.");
+        const text = document.getElementById('zFinalPass').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            const toast = document.getElementById("toast");
+            toast.className = "toast show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        });
     }
 
-    // THE ORACLE (RANDOMIZER)
+    // ORACLE
     function oracle() {
-        // 1. Generate Random Date/Vector (6 digits)
+        // Random 6-digit vector
         let vec = "";
         for(let i=0; i<6; i++) vec += Math.floor(Math.random()*10);
         
-        // 2. Generate Random Text (Zodiac Style)
-        const dictionary = ["Orbit", "Signal", "Cipher", "Echo", "Void", "Nexus", "Prism", "Flux", "Helix", "Solar", "Lunar", "Core", "Gate", "Spark", "Drift", "Pulse", "Wave", "Static", "Ghost", "Shadow"];
+        // Random Diceware-style text
+        const dictionary = ["Orbit", "Signal", "Cipher", "Echo", "Void", "Nexus", "Prism", "Flux", "Helix", "Solar", "Lunar", "Core", "Gate", "Spark", "Drift", "Pulse", "Wave", "Static", "Ghost", "Shadow", "Zero", "One", "Alpha", "Omega", "Prime"];
         
         let txt = "";
-        // Pick 6 random words
         for(let i=0; i<6; i++) {
             txt += dictionary[Math.floor(Math.random() * dictionary.length)] + " ";
         }
 
-        // 3. Fill
         document.getElementById('zCode').value = vec;
         document.getElementById('zText').value = txt.trim();
         runZodiac();
