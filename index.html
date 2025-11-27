@@ -62,6 +62,7 @@
     
     .input-group { flex: 1; }
     label { display: block; font-size: 10px; color: var(--accent); font-weight: bold; text-transform: uppercase; margin-bottom: 5px; }
+    
     input {
         width: 100%;
         background: #000;
@@ -71,7 +72,7 @@
         font-family: var(--font);
         font-size: 16px;
         box-sizing: border-box;
-        transition: border 0.3s, filter 0.3s;
+        transition: border 0.3s;
     }
     input:focus { outline: none; border-color: var(--ink); }
 
@@ -96,11 +97,7 @@
     .btn-sec { background: #222; color: #888; border: 1px solid #444; }
     .btn-sec:hover { border-color: #fff; color: #fff; }
     
-    .btn-warn { background: #220000; color: #ff3333; border: 1px solid #550000; margin-left: auto; }
-    .btn-warn:hover { background: #ff3333; color: #000; }
-
-    /* Toggle Button */
-    .btn-mask { background: transparent; border: 1px solid #444; color: #555; }
+    .btn-mask { background: transparent; border: 1px solid #444; color: #555; margin-left: auto; }
     .btn-mask.active { color: var(--accent); border-color: var(--accent); background: rgba(0, 204, 255, 0.1); }
 
     /* OUTPUTS */
@@ -151,48 +148,41 @@
     .active-cell { background: var(--ink); color: #000; font-weight: bold; }
     .noise-cell { opacity: 0.5; }
 
-    /* -------------------------------------------------------
-       PRIVACY MASK (BLUR TECH)
-       ------------------------------------------------------- */
+    /* PRIVACY MASK (BLUR TECH) */
     .masked .key-display,
     .masked .prism-out,
-    .masked .active-cell,
-    .masked input { /* Mask inputs too */
+    .masked .active-cell {
         filter: blur(6px);
         user-select: none;
         cursor: not-allowed;
     }
-    
-    /* Hover to reveal */
     .masked .key-display:hover,
     .masked .prism-out:hover,
-    .masked .active-cell:hover,
-    .masked input:hover {
+    .masked .active-cell:hover {
         filter: blur(0);
         cursor: text;
     }
 
-    /* -------------------------------------------------------
-       TOAST NOTIFICATIONS
-       ------------------------------------------------------- */
+    /* TOAST NOTIFICATION */
     .toast {
         visibility: hidden;
         min-width: 250px;
-        margin-left: -125px;
         background-color: var(--ink);
         color: #000;
         text-align: center;
         border-radius: 2px;
-        padding: 16px;
+        padding: 14px;
         position: fixed;
         z-index: 100;
         left: 50%;
         bottom: 30px;
+        transform: translateX(-50%);
         font-weight: bold;
-        text-transform: uppercase;
         box-shadow: 0 0 20px rgba(0,255,65,0.4);
         opacity: 0;
         transition: opacity 0.3s, bottom 0.3s;
+        font-size: 12px;
+        text-transform: uppercase;
     }
     .toast.show { visibility: visible; opacity: 1; bottom: 50px; }
 
@@ -232,33 +222,37 @@
 
     .doc-p { font-size: 13px; color: #aaa; margin-bottom: 15px; line-height: 1.6; }
     .doc-strong { color: #fff; font-weight: bold; }
-    .doc-code { background: #000; border: 1px solid #333; color: var(--accent); padding: 2px 6px; font-size: 12px; border-radius: 3px; }
-    .doc-block { background: #050505; border: 1px solid #222; padding: 15px; margin: 15px 0; font-family: monospace; font-size: 12px; color: #ccc; }
+    
+    .doc-code { 
+        background: #000; border: 1px solid #333; color: var(--accent); 
+        padding: 2px 6px; font-size: 12px; border-radius: 3px; 
+    }
+
+    .doc-block {
+        background: #050505; border: 1px solid #222; padding: 15px; 
+        margin: 15px 0; font-family: monospace; font-size: 12px; color: #ccc;
+    }
+
     .doc-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 12px; }
     .doc-table th { text-align: left; border-bottom: 1px solid #444; padding: 8px; color: var(--accent); }
     .doc-table td { border-bottom: 1px solid #222; padding: 8px; color: #888; }
     .math-sym { color: var(--warn); font-weight: bold; }
 
+    /* PRINT MANIFEST (Visible only in print) */
+    .print-manifest { display: none; margin-bottom: 30px; border: 2px solid #000; padding: 15px; font-family: monospace; }
+    .pm-row { margin-bottom: 5px; border-bottom: 1px dotted #ccc; padding-bottom: 5px; }
+    .pm-label { font-weight: bold; text-transform: uppercase; font-size: 10px; }
+    .pm-val { font-weight: bold; font-size: 14px; display: block; }
+
     /* -------------------------------------------------------
        PRINT STYLES (GASLIGHTING & MANUAL)
        ------------------------------------------------------- */
-    #printSummary { display: none; } /* Hidden on screen */
-
     @media print {
         body { background: #fff; color: #000; padding: 0; margin: 0; }
-        .controls, .btn-row, header, .prism-box, .master-key-box { display: none !important; }
+        .controls, .btn-row, header, .prism-box, .master-key-box { display: none; }
         
-        /* PRINT HEADER (Inputs) */
-        #printSummary { 
-            display: block; 
-            margin-bottom: 20px; 
-            border: 2px solid #000; 
-            padding: 15px; 
-            font-family: monospace;
-        }
-        .print-row { border-bottom: 1px dotted #ccc; padding-bottom: 5px; margin-bottom: 5px; }
-        .print-lbl { font-weight: bold; font-size: 10px; text-transform: uppercase; }
-        .print-val { font-size: 14px; display: block; }
+        /* SHOW MANIFEST */
+        .print-manifest { display: block; }
 
         /* THE GRID (GASLIGHT MODE) */
         .grid-wrapper { border: none; display: block !important; margin: 20px 0; page-break-after: always; }
@@ -270,9 +264,8 @@
             background: transparent !important; 
             font-weight: normal !important; 
             opacity: 1 !important;
-            filter: none !important; 
+            filter: none !important; /* Force remove blur */
         }
-        /* Strip Highlights */
         .active-cell { background: transparent !important; font-weight: normal !important; color: #000 !important; filter: none !important; }
 
         /* THE DOSSIER (READABLE MODE) */
@@ -295,36 +288,36 @@
 </head>
 <body>
 
+    <!-- PRINT ONLY HEADER -->
+    <div class="print-manifest">
+        <div style="text-align:center; font-weight:bold; border-bottom:2px solid #000; margin-bottom:10px;">ZODIAC VAULT MANIFEST</div>
+        <div class="pm-row"><span class="pm-label">1. Vector</span><span class="pm-val" id="pmVec">---</span></div>
+        <div class="pm-row"><span class="pm-label">2. Echo</span><span class="pm-val" id="pmEcho">---</span></div>
+        <div class="pm-row"><span class="pm-label">3. Master Key</span><span class="pm-val" id="pmMaster">---</span></div>
+    </div>
+
     <header>
         <h1>Zodiac Protocol</h1>
         <div class="subtitle">Embankment Edition | v5.0 Final</div>
     </header>
 
-    <!-- PRINT SUMMARY (Hidden on Screen) -->
-    <div id="printSummary">
-        <div style="text-align:center; font-weight:bold; border-bottom:2px solid black; margin-bottom:10px;">ZODIAC VAULT RECORD</div>
-        <div class="print-row"><span class="print-lbl">VECTOR</span><span class="print-val" id="pVec">---</span></div>
-        <div class="print-row"><span class="print-lbl">ECHO PHRASE</span><span class="print-val" id="pEcho">---</span></div>
-        <div class="print-row"><span class="print-lbl">MASTER CHAIN</span><span class="print-val" id="pMaster">---</span></div>
-    </div>
-
-    <div class="controls" id="inputContainer">
+    <div class="controls">
         <div class="input-group">
             <label>1. The Vector (10 Digits Max)</label>
-            <input type="text" id="zVec" placeholder="Enter numbers..." maxlength="10" pattern="\d*" autocomplete="off">
+            <input type="text" id="zVec" placeholder="e.g. 19850501" maxlength="10" pattern="\d*" autocomplete="off" oninput="runZodiac()">
         </div>
         <div class="input-group">
             <label>2. The Echo (Phrase)</label>
-            <input type="text" id="zEcho" placeholder="Enter text..." autocomplete="off">
+            <input type="text" id="zEcho" placeholder="e.g. Time is the fire" autocomplete="off" spellcheck="false" oninput="runZodiac()">
         </div>
     </div>
 
     <div class="btn-row">
-        <button class="btn-sec" onclick="oracle()">🎲 Oracle (Random)</button>
-        <button class="btn-sec" onclick="loadCaseStudy()">⚡ Case Study</button>
-        <button id="maskBtn" class="btn-mask" onclick="toggleMask()">Privacy Mask: OFF</button>
+        <button class="btn-sec" onclick="loadExample()">Load Example</button>
+        <button class="btn-sec" onclick="randomize()">🎲 Randomize</button>
         <button class="btn-sec" onclick="window.print()">🖨️ Print Vault</button>
-        <button class="btn-warn" onclick="wipe()">WIPE</button>
+        <button id="maskBtn" class="btn-mask" onclick="toggleMask()">Privacy Mask: OFF</button>
+        <button class="btn-sec" onclick="wipe()" style="margin-left:auto; color:#ff3333; border-color:#550000;">WIPE</button>
     </div>
 
     <div id="zScreen" class="screen">
@@ -340,7 +333,7 @@
         <div class="prism-box">
             <label>THE PRISM (SERVICE KEY GENERATOR)</label>
             <div style="font-size:11px; color:#666; margin-bottom:10px;">
-                Auto-generates from Master Chain based on Service Name length.
+                Enter a service name. The system will grab specific segments from the Master Chain based on the service name's length.
             </div>
             <div class="prism-row">
                 <input type="text" id="zSvc" placeholder="Service (e.g. Amazon)" oninput="runPrism()" style="flex:1;">
@@ -448,9 +441,8 @@
         </div>
 
     </div>
-
-    <!-- TOAST NOTIFICATION -->
-    <div id="toast" class="toast">Action Complete</div>
+    
+    <div id="toast" class="toast">Secured in Clipboard</div>
 
 <script>
     // CORE STATE
@@ -458,34 +450,21 @@
     let gridData = [];
     let maskEnabled = false;
 
-    // --- DEBOUNCE UTILITY (On-the-fly) ---
-    function debounce(func, wait) {
-        let timeout;
-        return function(...args) {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => func.apply(this, args), wait);
-        };
-    }
-
-    // --- EVENT LISTENERS ---
-    const runner = debounce(runZodiac, 150);
-    document.getElementById('zVec').addEventListener('input', runner);
-    document.getElementById('zEcho').addEventListener('input', runner);
-
     // --- ZODIAC ENGINE ---
     function runZodiac() {
         // 1. INPUT SANITIZATION
         let vec = document.getElementById('zVec').value.replace(/[^0-9]/g, '');
+        // Limit to 10 digits
         if(vec.length > 10) { 
             vec = vec.substring(0, 10); 
             document.getElementById('zVec').value = vec; 
         }
         
         let text = document.getElementById('zEcho').value.trim();
-        
-        // Update Print Summary
-        document.getElementById('pVec').innerText = vec || "---";
-        document.getElementById('pEcho').innerText = text || "---";
+
+        // Update Print Manifest (Even if masked on screen)
+        document.getElementById('pmVec').innerText = vec || "---";
+        document.getElementById('pmEcho').innerText = text || "---";
         
         if(!vec || !text) {
              document.getElementById('zScreen').style.display = "none";
@@ -496,14 +475,14 @@
         const words = text.split(/\s+/);
         masterChain = [];
         let fullString = "";
-        let activeCoords = [];
+        let activeCoords = []; 
 
         for(let i=0; i<vec.length; i++) {
             let d = parseInt(vec[i]);
-            let w = words[i % words.length]; // Loop words if phrase is short
+            let w = words[i % words.length]; // Loop words
             if(!w) w = "Zodiac"; 
 
-            // GENERATE SEGMENT (Fixed Order: H T D S)
+            // ATOMIC STRUCTURE: H T D S
             let head = w.charAt(0).toUpperCase();
             let tail = w.charAt(w.length-1).toLowerCase();
             
@@ -517,7 +496,7 @@
             masterChain.push(seg);
             fullString += seg;
 
-            // MAP TO GRID COORDINATES
+            // MAP TO GRID
             activeCoords.push({ r: d, c: i % 10, val: seg });
         }
 
@@ -525,18 +504,22 @@
         gridData = [];
         for(let r=0; r<10; r++) {
             for(let c=0; c<10; c++) {
+                // Is this a real data point?
                 let active = activeCoords.find(k => k.r === r && k.c === c);
+                
                 if(active) {
                     gridData.push({ val: active.val, active: true });
                 } else {
-                    // Generate Deterministic Noise
+                    // Generate Deterministic Noise for print obfuscation
                     let fakeDigit = (r + c) % 10;
                     let fakeWord = words[(r+c) % words.length] || "Null";
+                    
                     let fh = fakeWord.charAt(0).toUpperCase();
                     let ft = fakeWord.charAt(fakeWord.length-1).toLowerCase();
                     let fsymVal = (fakeWord.length + fakeDigit) % 10;
                     const map = [')','!','@','#','$','%','^','&','*','('];
                     let fs = map[fsymVal];
+                    
                     gridData.push({ val: fh + ft + fakeDigit + fs, active: false });
                 }
             }
@@ -544,7 +527,7 @@
 
         // 4. RENDER
         document.getElementById('zMaster').innerText = fullString;
-        document.getElementById('pMaster').innerText = fullString; // Update print summary
+        document.getElementById('pmMaster').innerText = fullString; // For Print
         renderGrid();
         document.getElementById('zScreen').style.display = "block";
         runPrism(); // Update service key if typed
@@ -586,87 +569,111 @@
             res.innerText = "Waiting...";
             return;
         }
-        
-        let len = svc.length || 1;
+
+        // PRISM LOGIC
+        // 1. Get length of service
+        let len = svc.length;
+        if(len === 0) len = 1;
+
+        // 2. Select Segments (Wrap around)
         let idx1 = (len - 1) % masterChain.length;
-        let idx2 = (len) % masterChain.length; 
+        let idx2 = (len) % masterChain.length; // Next one
+
         let seg1 = masterChain[idx1];
         let seg2 = masterChain[idx2];
+
+        // 3. Format Name (Capitalize)
         let cleanSvc = svc.charAt(0).toUpperCase() + svc.slice(1);
 
         res.innerText = seg1 + seg2 + cleanSvc;
     }
 
-    // --- UX TOOLS ---
-    function oracle() {
-        const numWords = ["Zero","One","Two","Three","Four","Five","Six","Seven","Eight","Nine"];
-        const now = Date.now().toString();
-        const vec = now.slice(-8); // Last 8 digits
-        
-        // Vocalized Digits
-        const phrase = vec.split('').map(d => numWords[parseInt(d)]).join(' ');
-        
-        // Creative Service Name
-        const services = ["Nebula", "Apex", "Vertex", "Horizon", "Zenith", "Flux"];
-        const randSvc = services[Math.floor(Math.random() * services.length)];
-
-        document.getElementById('zVec').value = vec;
-        document.getElementById('zEcho').value = phrase;
-        document.getElementById('zSvc').value = randSvc;
-        
+    // --- UX UTILITIES ---
+    
+    function loadExample() {
+        document.getElementById('zVec').value = "19690720"; // Moon Landing
+        document.getElementById('zEcho').value = "Time is the fire";
+        document.getElementById('zSvc').value = "Nasa";
         runZodiac();
-        showToast("Oracle Generated");
+        showToast("Example Loaded");
     }
 
-    function loadCaseStudy() {
-        document.getElementById('zVec').value = "1969";
-        document.getElementById('zEcho').value = "Time is the fire";
-        document.getElementById('zSvc').value = "Gmail";
+    function randomize() {
+        // True Entropy using window.crypto
+        const arr = new Uint8Array(8); // 8 Digits
+        window.crypto.getRandomValues(arr);
+        
+        let vec = "";
+        let echo = [];
+        const digitWords = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+        
+        arr.forEach(n => {
+            let d = n % 10;
+            vec += d;
+            echo.push(digitWords[d]);
+        });
+        
+        document.getElementById('zVec').value = vec;
+        document.getElementById('zEcho').value = echo.join(" ");
+        // Creative service name for context
+        const creativeSvcs = ["SkyNet", "BlackRock", "TyrellCorp", "Cyberdyne", "Umbrella"];
+        document.getElementById('zSvc').value = creativeSvcs[Math.floor(Math.random() * creativeSvcs.length)];
+        
         runZodiac();
-        showToast("Case Study Loaded");
+        showToast("Entropy Generated");
     }
 
     function toggleMask() {
         maskEnabled = !maskEnabled;
         const btn = document.getElementById('maskBtn');
         const screen = document.getElementById('zScreen');
-        const inputs = document.getElementById('inputContainer'); // Wrap inputs
+        const vecInput = document.getElementById('zVec');
+        const echoInput = document.getElementById('zEcho');
         
         if(maskEnabled) {
             btn.classList.add('active');
             btn.innerText = "Privacy Mask: ON";
             screen.classList.add('masked');
-            inputs.classList.add('masked');
+            // Input Masking via type attribute
+            vecInput.type = "password";
+            echoInput.type = "password";
         } else {
             btn.classList.remove('active');
             btn.innerText = "Privacy Mask: OFF";
             screen.classList.remove('masked');
-            inputs.classList.remove('masked');
+            // Unmask
+            vecInput.type = "text";
+            echoInput.type = "text";
         }
     }
 
     function wipe() {
+        // 1. Clear DOM
         document.getElementById('zVec').value = "";
         document.getElementById('zEcho').value = "";
         document.getElementById('zSvc').value = "";
         document.getElementById('zMaster').innerText = "---";
         document.getElementById('zSvcResult').innerText = "---";
-        document.getElementById('pVec').innerText = "---";
-        document.getElementById('pEcho').innerText = "---";
-        document.getElementById('pMaster').innerText = "---";
+        document.getElementById('pmVec').innerText = "---";
+        document.getElementById('pmEcho').innerText = "---";
+        document.getElementById('pmMaster').innerText = "---";
         document.getElementById('zGrid').innerHTML = "";
         document.getElementById('zScreen').style.display = "none";
 
-        // Explicit Memory Clear
+        // Reset inputs to text if masked
+        if(maskEnabled) toggleMask(); 
+
+        // 2. Clear Memory (Security)
         masterChain = [];
         gridData = [];
-        showToast("Data Wiped");
+        
+        showToast("SYSTEM WIPED");
     }
 
     function copy(id) {
         const txt = document.getElementById(id).innerText;
         if(!txt || txt.includes("Waiting") || txt === "---") return;
-        navigator.clipboard.writeText(txt).then(() => showToast("Copied to Clipboard"));
+        navigator.clipboard.writeText(txt).then(() => showToast("Secured in Clipboard"));
     }
 
     function showToast(msg) {
