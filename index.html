@@ -3,210 +3,581 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zodiac Protocol: Identity Gateway</title>
-<meta name="description" content="Choose your identity survival path.">
+<title>Zodiac Protocol: Embankment Ready</title>
+<meta name="description" content="Deterministic Identity Engine & Field Manual.">
 <style>
     /* -------------------------------------------------------
-       GATEWAY AESTHETIC: MONOLITHIC & CALM
+       CORE AESTHETICS
        ------------------------------------------------------- */
     :root {
-        --bg: #050505;
-        --card-bg: #0f0f0f;
+        --bg: #080808;
+        --panel: #111;
+        --paper: #0e0e0e;
         --border: #333;
-        --text: #ccc;
-        --ink-ultimate: #00ccff; /* Cyan for Logic */
-        --ink-survival: #ff9900; /* Safety Orange */
+        --ink: #00ff41;    /* Action Green */
+        --accent: #00ccff; /* Math/Logic Cyan */
+        --warn: #ffcc00;   /* Attention Orange */
+        --sub: #666;
         --font: 'Courier New', Courier, monospace;
     }
 
     body {
         background-color: var(--bg);
-        color: var(--text);
+        color: #ccc;
         font-family: var(--font);
         margin: 0;
         padding: 40px;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        line-height: 1.5;
+        max-width: 950px;
+        margin: 0 auto;
     }
 
     /* HEADER */
-    .header {
+    header {
         text-align: center;
-        margin-bottom: 50px;
-        animation: fadeIn 1s ease-in;
-    }
-    
-    h1 {
-        text-transform: uppercase;
-        letter-spacing: 6px;
-        font-size: 2em;
-        margin-bottom: 10px;
-        color: #fff;
-        border-bottom: 1px solid #333;
+        border-bottom: 2px solid var(--ink);
         padding-bottom: 20px;
-        display: inline-block;
+        margin-bottom: 40px;
     }
-
-    .subtitle {
-        font-size: 0.8em;
-        color: #666;
+    h1 {
+        color: var(--ink);
         text-transform: uppercase;
-        letter-spacing: 2px;
+        letter-spacing: 4px;
+        margin: 0;
+        font-size: 24px;
     }
+    .subtitle { color: var(--sub); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin-top: 5px; }
 
-    /* CARDS CONTAINER */
-    .cards-container {
+    /* CONTROLS */
+    .controls {
         display: flex;
-        gap: 30px;
-        max-width: 900px;
+        gap: 20px;
+        margin-bottom: 30px;
+        background: var(--panel);
+        padding: 20px;
+        border: 1px solid var(--border);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    @media (max-width: 600px) { .controls { flex-direction: column; } }
+    
+    .input-group { flex: 1; }
+    label { display: block; font-size: 10px; color: var(--accent); font-weight: bold; text-transform: uppercase; margin-bottom: 5px; }
+    input {
         width: 100%;
+        background: #000;
+        border: 1px solid #444;
+        color: #fff;
+        padding: 12px;
+        font-family: var(--font);
+        font-size: 16px;
+        box-sizing: border-box;
+        transition: border 0.3s;
+    }
+    input:focus { outline: none; border-color: var(--ink); }
+
+    /* BUTTONS */
+    .btn-row { display: flex; gap: 10px; margin-bottom: 30px; align-items: center; }
+    
+    button {
+        padding: 12px 20px;
+        border: none;
+        cursor: pointer;
+        font-family: var(--font);
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 11px;
+        letter-spacing: 1px;
+        transition: all 0.2s;
+    }
+    .btn-core { background: var(--ink); color: #000; }
+    .btn-core:hover { background: #fff; }
+    
+    .btn-sec { background: #222; color: #888; border: 1px solid #444; }
+    .btn-sec:hover { border-color: #fff; color: #fff; }
+    
+    /* Toggle Button */
+    .btn-mask { background: transparent; border: 1px solid #444; color: #555; margin-left: auto; }
+    .btn-mask.active { color: var(--accent); border-color: var(--accent); background: rgba(0, 204, 255, 0.1); }
+
+    /* OUTPUTS */
+    .screen {
+        display: none; /* Hidden until active */
+        animation: fade 0.3s ease;
+    }
+    @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+    .master-key-box {
+        background: #000;
+        border: 1px dashed var(--sub);
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .key-display { font-size: 18px; color: #fff; font-weight: bold; word-break: break-all; margin-bottom: 10px; display: block; transition: filter 0.3s; }
+    
+    /* SERVICE DERIVATION */
+    .prism-box {
+        background: #0e0e0e;
+        border-left: 3px solid var(--accent);
+        padding: 20px;
+        margin-bottom: 40px;
+    }
+    .prism-row { display: flex; gap: 15px; align-items: center; margin-top: 10px; }
+    .prism-out { font-size: 20px; color: var(--accent); font-weight: bold; transition: filter 0.3s; }
+
+    /* GRID SYSTEM */
+    .grid-wrapper {
+        border: 1px solid var(--border);
+        overflow-x: auto;
+        margin-bottom: 40px;
+        transition: filter 0.3s;
+    }
+    table { width: 100%; border-collapse: collapse; min-width: 600px; table-layout: fixed; }
+    th { background: #111; color: var(--sub); padding: 8px; font-size: 10px; border: 1px solid #222; }
+    td { 
+        border: 1px solid #222; 
+        padding: 10px 2px; 
+        text-align: center; 
+        color: #444; 
+        font-size: 13px; 
+        transition: all 0.2s;
+        font-weight: normal;
     }
     
-    @media (max-width: 700px) {
-        .cards-container { flex-direction: column; }
+    .active-cell { background: var(--ink); color: #000; font-weight: bold; }
+    .noise-cell { opacity: 0.5; }
+
+    /* -------------------------------------------------------
+       PRIVACY MASK (BLUR TECH)
+       ------------------------------------------------------- */
+    .masked .key-display,
+    .masked .prism-out,
+    .masked .active-cell {
+        filter: blur(6px);
+        user-select: none;
+        cursor: not-allowed;
+    }
+    /* Hover to reveal */
+    .masked .key-display:hover,
+    .masked .prism-out:hover,
+    .masked .active-cell:hover {
+        filter: blur(0);
+        cursor: text;
     }
 
-    /* THE CARD CHASSIS */
-    .card {
-        flex: 1;
-        background: var(--card-bg);
+    /* -------------------------------------------------------
+       THE DOSSIER (MARKDOWN STYLE DOCUMENT)
+       ------------------------------------------------------- */
+    .dossier-section {
+        margin-top: 80px;
         border: 1px solid var(--border);
-        padding: 30px;
-        transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-        text-decoration: none;
-        color: inherit;
-        display: flex;
-        flex-direction: column;
+        background: var(--paper);
+        padding: 40px;
+        position: relative;
     }
-
-    .card:hover {
-        transform: translateY(-5px);
-    }
-
-    /* CARD: ULTIMATE STYLE */
-    .card-ultimate:hover {
-        border-color: var(--ink-ultimate);
-        box-shadow: 0 0 30px rgba(0, 204, 255, 0.1);
-    }
-    .card-ultimate h2 { color: var(--ink-ultimate); }
-    .btn-ultimate { background: var(--ink-ultimate); color: #000; }
-
-    /* CARD: SURVIVAL STYLE */
-    .card-survival:hover {
-        border-color: var(--ink-survival);
-        box-shadow: 0 0 30px rgba(255, 153, 0, 0.1);
-    }
-    .card-survival h2 { color: var(--ink-survival); }
-    .btn-survival { background: var(--ink-survival); color: #000; }
-
-    /* CARD CONTENT */
-    h2 {
-        font-size: 1.2em;
-        text-transform: uppercase;
+    
+    .dossier-section::before {
+        content: "CLASSIFIED // EMBANKMENT LEVEL";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        background: #1a1a1a;
+        color: var(--sub);
+        font-size: 10px;
+        text-align: center;
+        padding: 5px;
         letter-spacing: 2px;
-        margin-top: 0;
-        border-bottom: 1px solid #222;
-        padding-bottom: 15px;
+        border-bottom: 1px solid var(--border);
     }
 
-    .status-badge {
-        font-size: 10px;
-        font-weight: bold;
-        text-transform: uppercase;
-        padding: 4px 8px;
-        border-radius: 2px;
-        background: #222;
-        color: #888;
-        align-self: flex-start;
-        margin-bottom: 15px;
+    .doc-title { 
+        font-size: 22px; color: #fff; border-bottom: 2px solid #333; padding-bottom: 15px; margin-bottom: 20px; 
+        text-transform: uppercase; letter-spacing: 1px;
     }
 
-    p {
-        font-size: 13px;
-        line-height: 1.6;
-        flex-grow: 1;
-        color: #999;
+    .doc-h2 { 
+        font-size: 14px; color: var(--ink); text-transform: uppercase; font-weight: bold; 
+        margin-top: 30px; margin-bottom: 15px; border-left: 3px solid var(--ink); padding-left: 10px; 
     }
 
-    ul {
-        padding-left: 20px;
-        margin-bottom: 25px;
-        font-size: 12px;
-        color: #777;
-    }
-    li { margin-bottom: 5px; }
-
-    .btn {
-        display: block;
-        text-align: center;
-        padding: 15px;
-        font-weight: bold;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        border-radius: 2px;
-        margin-top: auto;
+    .doc-p { font-size: 13px; color: #aaa; margin-bottom: 15px; line-height: 1.6; }
+    .doc-strong { color: #fff; font-weight: bold; }
+    
+    .doc-code { 
+        background: #000; border: 1px solid #333; color: var(--accent); 
+        padding: 2px 6px; font-size: 12px; border-radius: 3px; 
     }
 
-    /* FOOTER */
-    .footer {
-        margin-top: 50px;
-        font-size: 10px;
-        color: #444;
-        text-align: center;
+    .doc-block {
+        background: #050505; border: 1px solid #222; padding: 15px; 
+        margin: 15px 0; font-family: monospace; font-size: 12px; color: #ccc;
     }
 
-    @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    .doc-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 12px; }
+    .doc-table th { text-align: left; border-bottom: 1px solid #444; padding: 8px; color: var(--accent); }
+    .doc-table td { border-bottom: 1px solid #222; padding: 8px; color: #888; }
+    .math-sym { color: var(--warn); font-weight: bold; }
+
+    /* -------------------------------------------------------
+       PRINT STYLES (GASLIGHTING & MANUAL)
+       ------------------------------------------------------- */
+    @media print {
+        body { background: #fff; color: #000; padding: 0; margin: 0; }
+        .controls, .btn-row, header, .prism-box, .master-key-box { display: none; }
+        
+        /* THE GRID (GASLIGHT MODE) */
+        .grid-wrapper { border: none; display: block !important; margin: 20px 0; page-break-after: always; }
+        table { border: 2px solid #000; font-size: 9px; }
+        th { background: #ddd !important; color: #000 !important; border: 1px solid #000 !important; }
+        td { 
+            border: 1px solid #000 !important; 
+            color: #000 !important; 
+            background: transparent !important; 
+            font-weight: normal !important; 
+            opacity: 1 !important;
+            filter: none !important; /* Force remove blur for print */
+        }
+        .active-cell { background: transparent !important; font-weight: normal !important; color: #000 !important; filter: none !important; }
+
+        /* THE DOSSIER (READABLE MODE) */
+        .dossier-section { 
+            margin-top: 0; border: none; background: #fff; padding: 20px; 
+            page-break-inside: avoid; color: #000;
+        }
+        .dossier-section::before { display: none; }
+        .doc-title { color: #000; border-color: #000; }
+        .doc-h2 { color: #000; border-color: #000; }
+        .doc-p { color: #333; }
+        .doc-strong { color: #000; }
+        .doc-code { background: #eee; border: 1px solid #ccc; color: #000; }
+        .doc-block { background: #f5f5f5; border: 1px solid #ccc; color: #000; }
+        .doc-table th { color: #000; border-color: #000; }
+        .doc-table td { color: #333; border-color: #ccc; }
+        .math-sym { color: #000; }
+    }
 </style>
 </head>
 <body>
 
-    <div class="header">
+    <header>
         <h1>Zodiac Protocol</h1>
-        <div class="subtitle">Deep Time Identity Management</div>
+        <div class="subtitle">Embankment Edition | v4.0 Final</div>
+    </header>
+
+    <div class="controls">
+        <div class="input-group">
+            <label>1. The Vector (10 Digits Max)</label>
+            <input type="text" id="zVec" placeholder="e.g. 19850501" maxlength="10" pattern="\d*" autocomplete="off">
+        </div>
+        <div class="input-group">
+            <label>2. The Echo (Phrase)</label>
+            <input type="text" id="zEcho" placeholder="e.g. Time is the fire" autocomplete="off">
+        </div>
     </div>
 
-    <div class="cards-container">
+    <div class="btn-row">
+        <button class="btn-core" onclick="runZodiac()">Generate Identity</button>
+        <button class="btn-sec" onclick="window.print()">🖨️ Print Vault & Dossier</button>
+        <button id="maskBtn" class="btn-mask" onclick="toggleMask()">Privacy Mask: OFF</button>
+        <button class="btn-sec" onclick="wipe()" style="margin-left:10px; color:#ff3333; border-color:#550000;">WIPE</button>
+    </div>
+
+    <div id="zScreen" class="screen">
         
-        <!-- CARD 1: ULTIMATE (LOGIC & GRID) -->
-        <a href="zodiac_ultimate.html" class="card card-ultimate">
-            <span class="status-badge">Recommended for Engineers</span>
-            <h2>Ultimate Edition</h2>
-            <p>
-                The complete cryptographic suite. Uses a 100-cell Holographic Grid to mine site-specific passwords using coordinate geometry.
-            </p>
-            <ul>
-                <li><strong>Security:</strong> Maximum (Visual Privacy Mask).</li>
-                <li><strong>System:</strong> Vector + Echo + Grid Mining.</li>
-                <li><strong>Recovery:</strong> Requires reconstructing a 10x10 grid.</li>
-                <li><strong>Best For:</strong> High-value vaults, long-term archiving.</li>
-            </ul>
-            <span class="btn btn-ultimate">Initialize Ultimate &rarr;</span>
-        </a>
+        <!-- MASTER CHAIN -->
+        <div class="master-key-box">
+            <label style="color:#666; margin-bottom:10px;">MASTER CHAIN (LINEAR)</label>
+            <span id="zMaster" class="key-display">---</span>
+            <button class="btn-sec" style="font-size:9px; padding:5px 10px;" onclick="copy('zMaster')">Copy Chain</button>
+        </div>
 
-        <!-- CARD 2: SURVIVAL (MEMORY & PRISM) -->
-        <a href="zodiac_survival.html" class="card card-survival">
-            <span class="status-badge">Recommended for Field Use</span>
-            <h2>Survival Edition</h2>
-            <p>
-                A stripped-down linear generator. Uses the "Prism" logic to derive service passwords directly from a single Master Chain.
-            </p>
-            <ul>
-                <li><strong>Security:</strong> High (Odd/Even Shuffling).</li>
-                <li><strong>System:</strong> Vector + Echo + Linear Offset.</li>
-                <li><strong>Recovery:</strong> Pure mental math (No grid drawing).</li>
-                <li><strong>Best For:</strong> High stress, limited tools, fast recall.</li>
-            </ul>
-            <span class="btn btn-survival">Initialize Survival &rarr;</span>
-        </a>
+        <!-- PRISM (SERVICE KEY) -->
+        <div class="prism-box">
+            <label>THE PRISM (SERVICE KEY GENERATOR)</label>
+            <div style="font-size:11px; color:#666; margin-bottom:10px;">
+                Enter a service name. The system will grab specific segments from the Master Chain based on the service name's length.
+            </div>
+            <div class="prism-row">
+                <input type="text" id="zSvc" placeholder="Service (e.g. Amazon)" oninput="runPrism()" style="flex:1;">
+                <div id="zSvcResult" class="prism-out">---</div>
+                <button class="btn-core" onclick="copy('zSvcResult')">COPY</button>
+            </div>
+        </div>
+
+        <!-- GRID -->
+        <div id="zGrid" class="grid-wrapper"></div>
 
     </div>
 
-    <div class="footer">
-        STATUS: OFFLINE_READY &nbsp;|&nbsp; DEPENDENCIES: ZERO &nbsp;|&nbsp; STORAGE: LOCAL
+    <!-- FIELD DEPLOYMENT DOSSIER -->
+    <div class="dossier-section">
+        <div class="doc-title">ZODIAC PROTOCOL: FIELD DEPLOYMENT DOSSIER</div>
+        
+        <div class="doc-p">
+            <strong>VERSION:</strong> 4.0 (EMBANKMENT) &nbsp;|&nbsp; <strong>STATUS:</strong> OFFLINE_READY<br>
+            This document outlines the manual reconstruction of the Zodiac Identity. The logic described below produces mathematically identical results to the digital tool.
+        </div>
+
+        <div class="doc-h2">1. THE UNIFIED ALGORITHM</div>
+        <div class="doc-p">
+            The system relies on a single "Atomic Structure." Whether generated by the HTML engine or your brain, the password segment is always constructed in this fixed order:
+        </div>
+        <div class="doc-block" style="text-align:center;">
+            HEAD + TAIL + DIGIT + SYMBOL
+        </div>
+        <div class="doc-p">
+            There is <span class="doc-strong">no rotation</span>. There is no right-to-left reading. It is a linear, rhythmic assembly.
+        </div>
+
+        <div class="doc-h2">2. THE SALTED SYMBOL (ANTI-PATTERNING)</div>
+        <div class="doc-p">
+            To prevent attackers from guessing the word length of your Echo phrase, the special character is derived via <span class="doc-strong">Vector Salting</span>.
+        </div>
+        <div class="doc-block">
+            FORMULA: (Word Length + Vector Digit) % 10
+        </div>
+        <table class="doc-table">
+            <thead>
+                <tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>0</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="color:#fff; font-weight:bold;">!</td>
+                    <td style="color:#fff; font-weight:bold;">@</td>
+                    <td style="color:#fff; font-weight:bold;">#</td>
+                    <td style="color:#fff; font-weight:bold;">$</td>
+                    <td style="color:#fff; font-weight:bold;">%</td>
+                    <td style="color:#fff; font-weight:bold;">^</td>
+                    <td style="color:#fff; font-weight:bold;">&</td>
+                    <td style="color:#fff; font-weight:bold;">*</td>
+                    <td style="color:#fff; font-weight:bold;">(</td>
+                    <td style="color:#fff; font-weight:bold;">)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="doc-h2">3. THE "PRISM" (SERVICE DERIVATION)</div>
+        <div class="doc-p">
+            To generate a key for a service of length <span class="doc-code">N</span>:
+            <br>1. Take <strong>Segment N</strong> from your Master Chain. (If chain length is 4, Seg 5 wraps around to Seg 1).
+            <br>2. Take <strong>Segment N+1</strong> (The next one).
+            <br>3. Append the <strong>Service Name</strong> (Capitalized).
+        </div>
+
+        <div class="doc-h2">4. CASE STUDY: "OPERATION FIRE"</div>
+        <div class="doc-p">
+            <span class="doc-strong">VECTOR:</span> 1969 &nbsp;|&nbsp; <span class="doc-strong">ECHO:</span> "Time is the fire"
+        </div>
+
+        <table class="doc-table">
+            <thead>
+                <tr>
+                    <th>Word</th><th>Digit</th><th>H</th><th>T</th><th>Math (Len+Digit)</th><th>Sym</th><th>RESULT</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Time</td><td>1</td><td>T</td><td>e</td><td>4 + 1 = 5</td><td><span class="math-sym">%</span></td><td><span class="doc-code">Te1%</span></td>
+                </tr>
+                <tr>
+                    <td>is</td><td>9</td><td>I</td><td>s</td><td>2 + 9 = 11 &rarr; 1</td><td><span class="math-sym">!</span></td><td><span class="doc-code">Is9!</span></td>
+                </tr>
+                <tr>
+                    <td>the</td><td>6</td><td>T</td><td>e</td><td>3 + 6 = 9</td><td><span class="math-sym">(</span></td><td><span class="doc-code">Te6(</span></td>
+                </tr>
+                <tr>
+                    <td>fire</td><td>9</td><td>F</td><td>e</td><td>4 + 9 = 13 &rarr; 3</td><td><span class="math-sym">#</span></td><td><span class="doc-code">Fe9#</span></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="doc-block">
+            MASTER CHAIN: Te1%Is9!Te6(Fe9#<br>
+            GMAIL KEY (Len 5): [Seg 5->1] + [Seg 6->2] + Gmail = Te1%Is9!Gmail
+        </div>
+        
+        <div class="doc-h2">5. GRID PROTOCOL</div>
+        <div class="doc-p">
+            <span class="doc-strong">ON SCREEN:</span> Path is highlighted.
+            <br><span class="doc-strong">ON PAPER (GASLIGHT):</span> All highlights are stripped. The grid is filled with noise segments generated using the exact same math as real segments. Only the owner of the Vector coordinates can distinguish signal from noise.
+        </div>
+
     </div>
+
+<script>
+    // CORE STATE
+    let masterChain = [];
+    let gridData = [];
+    let maskEnabled = false;
+
+    // --- ZODIAC ENGINE ---
+    function runZodiac() {
+        // 1. INPUT SANITIZATION (Strict 10 Digit Limit)
+        let vec = document.getElementById('zVec').value.replace(/[^0-9]/g, '');
+        if(vec.length > 10) { 
+            vec = vec.substring(0, 10); 
+            document.getElementById('zVec').value = vec; 
+        }
+        
+        let text = document.getElementById('zEcho').value.trim();
+        
+        if(!vec || !text) return;
+
+        // 2. GENERATE MASTER CHAIN
+        const words = text.split(/\s+/);
+        masterChain = [];
+        let fullString = "";
+        let activeCoords = []; // Track where the real data lives
+
+        for(let i=0; i<vec.length; i++) {
+            let d = parseInt(vec[i]);
+            let w = words[i % words.length]; // Loop words if phrase is short
+            if(!w) w = "Zodiac"; // Fallback
+
+            // GENERATE SEGMENT (Fixed Order: H T D S)
+            let head = w.charAt(0).toUpperCase();
+            let tail = w.charAt(w.length-1).toLowerCase();
+            
+            // SALT THE SYMBOL: (Len + Digit) % 10
+            let symVal = (w.length + d) % 10;
+            const map = [')','!','@','#','$','%','^','&','*','(']; // 0-9
+            let sym = map[symVal];
+
+            let seg = head + tail + d + sym; 
+
+            masterChain.push(seg);
+            fullString += seg;
+
+            // MAP TO GRID COORDINATES
+            // Row = Digit, Col = Index (Modulo 10 for width)
+            activeCoords.push({ r: d, c: i % 10, val: seg });
+        }
+
+        // 3. FILL GRID (HOLOGRAPHIC NOISE)
+        gridData = [];
+        for(let r=0; r<10; r++) {
+            for(let c=0; c<10; c++) {
+                // Is this a real data point?
+                let active = activeCoords.find(k => k.r === r && k.c === c);
+                
+                if(active) {
+                    gridData.push({ val: active.val, active: true });
+                } else {
+                    // Generate Deterministic Noise
+                    let fakeDigit = (r + c) % 10;
+                    let fakeWord = words[(r+c) % words.length] || "Null";
+                    
+                    // Logic mimics real segments so it looks identical
+                    let fh = fakeWord.charAt(0).toUpperCase();
+                    let ft = fakeWord.charAt(fakeWord.length-1).toLowerCase();
+                    let fsymVal = (fakeWord.length + fakeDigit) % 10;
+                    const map = [')','!','@','#','$','%','^','&','*','('];
+                    let fs = map[fsymVal];
+                    
+                    gridData.push({ val: fh + ft + fakeDigit + fs, active: false });
+                }
+            }
+        }
+
+        // 4. RENDER
+        document.getElementById('zMaster').innerText = fullString;
+        renderGrid();
+        document.getElementById('zScreen').style.display = "block";
+        runPrism(); // Update service key if typed
+    }
+
+    function renderGrid() {
+        const container = document.getElementById('zGrid');
+        container.innerHTML = "";
+        const tbl = document.createElement('table');
+
+        // Header
+        let trH = document.createElement('tr');
+        trH.innerHTML = "<th>#</th>" + [0,1,2,3,4,5,6,7,8,9].map(n => `<th>${n}</th>`).join('');
+        tbl.appendChild(trH);
+
+        for(let r=0; r<10; r++) {
+            let tr = document.createElement('tr');
+            tr.innerHTML = `<th>${r}</th>`; // Row Label
+            
+            for(let c=0; c<10; c++) {
+                let cellData = gridData[(r*10)+c];
+                let td = document.createElement('td');
+                td.innerText = cellData.val;
+                if(cellData.active) td.className = "active-cell";
+                else td.className = "noise-cell";
+                tr.appendChild(td);
+            }
+            tbl.appendChild(tr);
+        }
+        container.appendChild(tbl);
+    }
+
+    // --- SERVICE DERIVATION ---
+    function runPrism() {
+        let svc = document.getElementById('zSvc').value.trim();
+        let res = document.getElementById('zSvcResult');
+        
+        if(!svc || masterChain.length === 0) {
+            res.innerText = "Waiting...";
+            return;
+        }
+
+        // PRISM LOGIC
+        // 1. Get length of service
+        let len = svc.length;
+        if(len === 0) len = 1;
+
+        // 2. Select Segments (Wrap around)
+        let idx1 = (len - 1) % masterChain.length;
+        let idx2 = (len) % masterChain.length; // Next one
+
+        let seg1 = masterChain[idx1];
+        let seg2 = masterChain[idx2];
+
+        // 3. Format Name (Capitalize)
+        let cleanSvc = svc.charAt(0).toUpperCase() + svc.slice(1);
+
+        res.innerText = seg1 + seg2 + cleanSvc;
+    }
+
+    // --- UTILITIES ---
+    function toggleMask() {
+        maskEnabled = !maskEnabled;
+        const btn = document.getElementById('maskBtn');
+        const screen = document.getElementById('zScreen');
+        
+        if(maskEnabled) {
+            btn.classList.add('active');
+            btn.innerText = "Privacy Mask: ON";
+            screen.classList.add('masked');
+        } else {
+            btn.classList.remove('active');
+            btn.innerText = "Privacy Mask: OFF";
+            screen.classList.remove('masked');
+        }
+    }
+
+    function wipe() {
+        // 1. Clear DOM
+        document.getElementById('zVec').value = "";
+        document.getElementById('zEcho').value = "";
+        document.getElementById('zSvc').value = "";
+        document.getElementById('zMaster').innerText = "---";
+        document.getElementById('zSvcResult').innerText = "---";
+        document.getElementById('zGrid').innerHTML = "";
+        document.getElementById('zScreen').style.display = "none";
+
+        // 2. Clear Memory (Security)
+        masterChain = [];
+        gridData = [];
+    }
+
+    function copy(id) {
+        const txt = document.getElementById(id).innerText;
+        if(!txt || txt.includes("Waiting") || txt === "---") return;
+        navigator.clipboard.writeText(txt).then(() => alert("COPIED"));
+    }
+</script>
 
 </body>
 </html>
