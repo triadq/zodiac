@@ -4,15 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zodiac Protocol: Ultimate Edition</title>
-<meta name="description" content="Deterministic Identity Matrix. Offline. Zero Dependencies.">
+<meta name="description" content="Deterministic Identity Matrix. Standard Decade.">
 <style>
-    /* -------------------------------------------------------
-       THE CHASSIS: TERMINAL AESTHETIC
-       ------------------------------------------------------- */
+    /* CHASSIS */
     :root {
         --bg: #050505;
-        --ink: #00ff41;    /* Terminal Green */
-        --accent: #00ccff; /* Cyan for Logic/Mining */
+        --ink: #00ff41;    
+        --accent: #00ccff; 
         --dim: #444;
         --panel: #111;
         --border: #333;
@@ -29,228 +27,79 @@
         line-height: 1.6;
     }
 
-    /* TYPOGRAPHY */
-    h1 {
-        color: var(--ink);
-        border-bottom: 2px solid var(--ink);
-        padding-bottom: 15px;
-        text-transform: uppercase;
-        letter-spacing: 4px;
-        text-align: center;
-        margin-top: 0;
-        font-size: 1.8em;
-    }
+    h1 { color: var(--ink); border-bottom: 2px solid var(--ink); padding-bottom: 15px; text-transform: uppercase; letter-spacing: 4px; text-align: center; margin-top: 0; }
+    .subtitle { color: #666; text-align: center; margin-bottom: 40px; font-size: 0.8em; text-transform: uppercase; letter-spacing: 2px; }
 
-    .subtitle {
-        color: #666;
-        text-align: center;
-        margin-bottom: 40px;
-        font-size: 0.8em;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-    }
-
-    /* CONTROLS CONTAINER */
-    .z-controls {
-        background: var(--panel);
-        padding: 30px;
-        border: 1px solid var(--border);
-        margin-bottom: 30px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.7);
-    }
-
+    /* CONTROLS */
+    .z-controls { background: var(--panel); padding: 30px; border: 1px solid var(--border); margin-bottom: 30px; }
     .z-row { display: flex; gap: 20px; margin-bottom: 20px; }
     .z-group { flex: 1; display: flex; flex-direction: column; }
-    @media (max-width: 600px) { .z-row { flex-direction: column; } }
-
-    label {
-        font-size: 11px;
-        font-weight: bold;
-        color: var(--accent);
-        margin-bottom: 8px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    input, select {
-        background: #000;
-        border: 1px solid #444;
-        color: #fff;
-        padding: 15px;
-        font-family: inherit;
-        font-size: 18px;
-        box-sizing: border-box;
-        transition: border 0.2s;
-        border-radius: 2px;
-        width: 100%;
-    }
+    label { font-size: 11px; font-weight: bold; color: var(--accent); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+    input { background: #000; border: 1px solid #444; color: #fff; padding: 15px; font-family: inherit; font-size: 18px; width: 100%; box-sizing: border-box; }
     input:focus { outline: none; border-color: var(--ink); }
 
     /* BUTTONS */
     .btn-row { display: flex; gap: 15px; flex-wrap: wrap; }
-    
-    button {
-        padding: 12px 25px;
-        font-weight: bold;
-        text-transform: uppercase;
-        cursor: pointer;
-        font-size: 11px;
-        border: none;
-        border-radius: 2px;
-        letter-spacing: 1px;
-        transition: all 0.2s;
-    }
-
-    .btn-action { background: var(--ink); color: #000; }
-    .btn-action:hover { background: #fff; }
-    
+    button { padding: 12px 25px; font-weight: bold; text-transform: uppercase; cursor: pointer; font-size: 11px; border: none; border-radius: 2px; letter-spacing: 1px; }
     .btn-demo { background: var(--accent); color: #000; }
-    .btn-demo:hover { background: #fff; }
-
     .btn-sub { background: #222; color: #888; border: 1px solid #444; }
-    .btn-sub:hover { background: #fff; color: #000; }
-
     .btn-panic { background: #220000; color: var(--alert); border: 1px solid #550000; margin-left: auto; }
-    .btn-panic:hover { background: var(--alert); color: #000; }
-
+    .btn-copy { background: var(--ink); color: #000; }
     .btn-mask { background: transparent; color: #555; border: 1px solid #333; }
     .btn-mask.active { color: var(--ink); border-color: var(--ink); }
 
-    /* OUTPUT & STRATEGY */
-    .z-screen {
-        display: none; /* Hidden until active */
-        margin-bottom: 40px;
-    }
-
-    .z-key-display {
-        background: #000;
-        border: 2px dashed var(--dim);
-        padding: 20px;
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    .z-key {
-        display: block;
-        color: #fff;
-        font-size: 24px;
-        font-weight: bold;
-        letter-spacing: 2px;
-        margin: 15px 0;
-        word-break: break-all;
-    }
-
-    /* STRATEGY BLOCKS */
-    .strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-    @media (max-width: 700px) { .strategy-grid { grid-template-columns: 1fr; } }
-
-    .z-strat-block {
-        background: #0e0e0e;
-        border: 1px solid #333;
-        padding: 15px;
-    }
-    .z-strat-head { font-size: 10px; color: var(--ink); font-weight: bold; text-transform: uppercase; margin-bottom: 10px; display: block; }
+    /* OUTPUT */
+    .z-screen { display: none; margin-bottom: 40px; }
+    .z-key-display { background: #000; border: 2px dashed var(--dim); padding: 20px; text-align: center; margin-bottom: 20px; }
+    .z-key { display: block; color: #fff; font-size: 24px; font-weight: bold; letter-spacing: 2px; margin: 15px 0; word-break: break-all; }
     
+    .masked .z-key, .masked .out-val, .masked .planted, .masked .active-path { filter: blur(5px); user-select: none; cursor: not-allowed; }
+    .masked .z-key:hover, .masked .out-val:hover { filter: blur(0); cursor: text; }
+
+    /* STRATEGY */
+    .strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+    .z-strat-block { background: #0e0e0e; border: 1px solid #333; padding: 15px; }
+    .z-strat-head { font-size: 10px; color: var(--ink); font-weight: bold; text-transform: uppercase; margin-bottom: 10px; display: block; }
     .out-row { display: flex; gap: 10px; align-items: center; }
     .out-val { font-family: monospace; color: #fff; font-weight: bold; flex: 1; word-break: break-all; font-size: 16px; }
 
-    /* THE HOLOGRAPHIC GRID */
+    /* GRID */
     .grid-wrapper { overflow-x: auto; border: 1px solid var(--border); margin-top: 20px; margin-bottom: 40px; }
     table { width: 100%; border-collapse: collapse; min-width: 600px; table-layout: fixed; }
     th { background: #111; color: #666; padding: 8px; font-size: 10px; border: 1px solid #222; }
-    td { 
-        border: 1px solid #222; padding: 8px 4px; text-align: center; 
-        color: #444; font-family: monospace; white-space: nowrap; overflow: hidden; font-size: 12px; 
-        transition: all 0.2s;
-    }
-    
-    /* Grid States */
-    td.active-path { background: var(--accent); color: #000; font-weight: bold; border-color: #fff; }
+    td { border: 1px solid #222; padding: 8px 4px; text-align: center; color: #444; font-family: monospace; white-space: nowrap; overflow: hidden; font-size: 12px; }
+    td.active-path { background: var(--accent); color: #000; font-weight: bold; }
     td.planted { color: var(--ink); font-weight: bold; background: rgba(0,255,65,0.05); }
 
-    /* MASKING (Anti-Shoulder Surf) */
-    .masked .z-key, .masked .out-val, .masked .planted, .masked .active-path {
-        filter: blur(5px);
-        user-select: none;
-        cursor: not-allowed;
-        transition: filter 0.2s;
-    }
-    .masked .z-key:hover, .masked .out-val:hover { filter: blur(0); cursor: text; }
-
-    /* DIRT PROTOCOL MANUAL */
-    .z-manual {
-        border-top: 1px solid var(--border);
-        padding-top: 30px;
-        color: #888;
-        font-size: 12px;
-    }
-    .manual-box {
-        background: #080808;
-        border: 1px solid #222;
-        padding: 20px;
-        margin-top: 10px;
-    }
+    /* MANUAL */
+    .z-deep-manual { background: #080808; padding: 20px; border: 1px solid #222; margin-top: 20px; font-size: 12px; color: #888; }
     .hl { color: var(--ink); font-weight: bold; }
-    .hl-acc { color: var(--accent); font-weight: bold; }
-
-    .map-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; margin: 10px 0; font-family: monospace; font-size: 11px; }
+    .map-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; margin: 10px 0; font-family: monospace; font-size: 11px; }
     .map-item { background: #111; padding: 5px; text-align: center; border: 1px solid #333; }
-    .map-item strong { color: #fff; }
+    .map-item strong { color: #fff; display: block; }
 
     /* TOAST */
-    .toast {
-        visibility: hidden;
-        min-width: 250px;
-        background-color: var(--ink);
-        color: #000;
-        text-align: center;
-        border-radius: 2px;
-        padding: 16px;
-        position: fixed;
-        z-index: 100;
-        left: 50%;
-        bottom: 30px;
-        transform: translateX(-50%);
-        font-weight: bold;
-        box-shadow: 0 0 20px rgba(0,255,65,0.4);
-        opacity: 0;
-        transition: opacity 0.3s, bottom 0.3s;
-        font-size: 12px;
-        text-transform: uppercase;
-    }
-    .toast.show { visibility: visible; opacity: 1; bottom: 50px; }
+    .toast { visibility: hidden; min-width: 250px; background-color: var(--ink); color: #000; text-align: center; border-radius: 2px; padding: 16px; position: fixed; z-index: 100; left: 50%; bottom: 30px; transform: translateX(-50%); font-weight: bold; }
+    .toast.show { visibility: visible; }
 
-    /* PRINT MODE */
-    .print-only { display: none; }
     @media print {
         body { background: white; color: black; padding: 0; }
-        .z-controls, .btn-row, button, h1, .subtitle { display: none !important; }
-        .z-screen { display: block !important; margin: 0; }
-        .z-key-display, .z-strat-block { border: 1px solid #000; background: none; color: #000; }
-        .z-key, .out-val { color: #000; filter: none !important; }
+        .z-controls, .btn-row, button, h1, .subtitle, .z-screen, .strategy-grid { display: none !important; }
         .grid-wrapper { border: none; display: block !important; }
         table { border: 2px solid black; font-size: 9px; }
         th { color: black !important; background: #ddd !important; border: 1px solid black !important; }
         td { border: 1px solid black !important; color: #999 !important; font-weight: normal !important; }
         td.planted { background: #eee !important; color: #000 !important; font-weight: bold !important; }
-        td.active-path { background: #999 !important; color: #fff !important; }
-        .manual-box { border: 1px solid #000; background: none; color: #000; }
+        .z-deep-manual { display: block !important; color: black !important; background: white; border: 1px solid #ccc; }
         .map-item { border: 1px solid #000; background: #eee; }
         .map-item strong { color: #000; }
-        .print-only { display: block; margin-bottom: 20px; font-family: monospace; border-bottom: 2px solid black; padding-bottom: 10px; }
     }
 </style>
 </head>
 <body>
 
-    <!-- PRINT HEADER -->
-    <div class="print-only">
-        <strong>ZODIAC VAULT RECORD</strong><br>
-        VECTOR: <span id="pVec">---</span><br>
-        ECHO: <span id="pEcho">---</span>
-    </div>
-
     <h1>The Zodiac Protocol</h1>
-    <div class="subtitle">Ultimate Edition | Deterministic Identity Matrix</div>
+    <div class="subtitle">Ultimate Edition | Standard Decade</div>
 
     <div class="z-controls">
         <div class="z-row">
@@ -273,130 +122,73 @@
     </div>
 
     <div id="zOutput" class="z-screen">
-        
-        <!-- MASTER KEY -->
         <div class="z-key-display">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                 <label style="color:#888;">ZODIAC MASTER KEY</label>
                 <button id="maskBtn" class="btn-mask" onclick="toggleVis()">Privacy Mask: OFF</button>
             </div>
             <span id="zFinalPass" class="z-key">---</span>
-            <button class="btn-action" onclick="copyKey()">Copy Master Key</button>
+            <button class="btn-copy" onclick="copyKey()">Copy Master Key</button>
         </div>
 
-        <!-- STRATEGY CONSOLE -->
         <div class="strategy-grid">
-            
-            <!-- MINER -->
             <div class="z-strat-block">
-                <span class="z-strat-head">Grid Miner (Site Password)</span>
+                <span class="z-strat-head">The Compass (Site Password)</span>
                 <div class="out-row">
-                    <input type="text" id="siteName" placeholder="Site (e.g. GMAIL)" style="flex:1; font-size:14px; padding:10px;" autocomplete="off" oninput="runMiner()">
-                    <button class="btn-action" style="padding:10px;" onclick="copyMine()">COPY</button>
+                    <input type="text" id="siteName" placeholder="Site (e.g. GMAIL)" style="flex:1; font-size:14px; padding:10px;" autocomplete="off" oninput="runCompass()">
+                    <button class="btn-copy" style="padding:10px;" onclick="copySat()">COPY</button>
                 </div>
-                <div id="mineResult" class="out-val" style="margin-top:10px; color:var(--accent);">---</div>
+                <div id="satResult" class="out-val" style="margin-top:10px; color:var(--accent);">---</div>
             </div>
-
-            <!-- PIN -->
-            <div class="z-strat-block">
-                <span class="z-strat-head">PIN Fabricator (T9)</span>
-                <div class="out-row">
-                    <input type="text" id="pinName" placeholder="Bank (e.g. CHASE)" style="flex:1; font-size:14px; padding:10px;" autocomplete="off" oninput="runPin()">
-                    <select id="pinLen" style="width:60px; padding:10px;" onchange="runPin()">
-                        <option value="4">4</option>
-                        <option value="6" selected>6</option>
-                        <option value="8">8</option>
-                    </select>
-                </div>
-                <div id="pinResult" class="out-val" style="margin-top:10px; color:var(--ink);">---</div>
-            </div>
-
         </div>
 
-        <!-- THE GRID -->
         <div id="zGridArea" class="grid-wrapper"></div>
-
     </div>
 
-    <!-- THE DIRT PROTOCOL -->
-    <div class="z-manual">
-        <strong style="color:var(--ink); font-size:1.2em;">THE DIRT PROTOCOL (SURVIVAL MANUAL)</strong>
-        <p>If this file is lost, follow these steps to mentally reconstruct your keys.</p>
-
-        <div class="manual-box">
-            <span class="z-strat-head">1. THE SEGMENT RULE</span>
-            <p>Pair a Digit from your Vector with a Word from your Echo. The result is 4 characters:</p>
-            <p style="font-family:monospace; font-size:1.1em;">
-                [Head] + [Tail] + [Digit] + [Symbol]
-            </p>
-            <ul style="padding-left:20px; margin:5px 0;">
-                <li><strong>Head:</strong> First letter (Uppercase).</li>
-                <li><strong>Tail:</strong> Last letter (Lowercase).</li>
-                <li><strong>Symbol:</strong> Based on word length (see map below).</li>
-            </ul>
-
-            <span class="z-strat-head" style="margin-top:15px;">2. THE SHUFFLE (Digit Mod 4)</span>
-            <p>Rotate the 4 characters based on the Digit modulo 4.</p>
-            <ul style="list-style:none; padding:0; font-family:monospace;">
-                <li><span class="hl">0,4,8</span> = Head + Tail + Digit + Sym &nbsp;(Zodiac -> Zc8$)</li>
-                <li><span class="hl">1,5,9</span> = Sym + Digit + Head + Tail &nbsp;(Zodiac -> $9Zc)</li>
-                <li><span class="hl">2,6  </span> = Tail + Sym + Head + Digit &nbsp;(Zodiac -> c$Z2)</li>
-                <li><span class="hl">3,7  </span> = Digit + Head + Sym + Tail &nbsp;(Zodiac -> 3Z$c)</li>
-            </ul>
-
-            <span class="z-strat-head" style="margin-top:15px;">3. SYMBOL MAP (Length Mod 12)</span>
-            <div class="map-grid">
-                <div class="map-item"><strong>!</strong> 0</div> <div class="map-item"><strong>@</strong> 1</div>
-                <div class="map-item"><strong>#</strong> 2</div> <div class="map-item"><strong>$</strong> 3</div>
-                <div class="map-item"><strong>%</strong> 4</div> <div class="map-item"><strong>^</strong> 5</div>
-                <div class="map-item"><strong>&</strong> 6</div> <div class="map-item"><strong>*</strong> 7</div>
-                <div class="map-item"><strong>?</strong> 8</div> <div class="map-item"><strong>+</strong> 9</div>
-                <div class="map-item"><strong>=</strong> 10</div> <div class="map-item"><strong>_</strong> 11</div>
-            </div>
-
-            <span class="z-strat-head" style="margin-top:15px;">4. MINING COORDINATES</span>
-            <p>To find specific passwords in the grid: Convert Site Name letters to numbers (A=0, B=1... J=9, K=0...).</p>
-            <p><strong>Row</strong> = Letter Value. <strong>Column</strong> = (Letter Value + Position Index) % 10.</p>
+    <div class="z-deep-manual">
+        <strong style="color:var(--ink); font-size:1.1em; display:block; margin-bottom:10px;">FIELD OPERATIONS MANUAL</strong>
+        
+        <p><strong>1. THE SYMBOL MAP (Length % 10)</strong><br>
+        Use the standard keyboard numbers (Shift+Num). 0 maps to ).</p>
+        <div class="map-grid">
+            <div class="map-item"><strong>!</strong>len: 1</div>
+            <div class="map-item"><strong>@</strong>len: 2</div>
+            <div class="map-item"><strong>#</strong>len: 3</div>
+            <div class="map-item"><strong>$</strong>len: 4</div>
+            <div class="map-item"><strong>%</strong>len: 5</div>
+            <div class="map-item"><strong>^</strong>len: 6</div>
+            <div class="map-item"><strong>&</strong>len: 7</div>
+            <div class="map-item"><strong>*</strong>len: 8</div>
+            <div class="map-item"><strong>(</strong>len: 9</div>
+            <div class="map-item"><strong>)</strong>len: 0</div>
         </div>
+
+        <p><strong>2. THE ROTATION (Digit % 4)</strong><br>
+        Divide your Digit by 4. Use the remainder.</p>
+        <ul style="list-style:none; padding:0; font-family:monospace;">
+            <li><span class="hl">R=0</span> (0,4,8): Head + Tail + Digit + Sym &nbsp;&nbsp;[Zc8*]</li>
+            <li><span class="hl">R=1</span> (1,5,9): Sym + Digit + Head + Tail &nbsp;&nbsp;[*8Zc]</li>
+            <li><span class="hl">R=2</span> (2,6): &nbsp; Tail + Sym + Head + Digit &nbsp;&nbsp;[c*Z8]</li>
+            <li><span class="hl">R=3</span> (3,7): &nbsp; Digit + Head + Sym + Tail &nbsp;&nbsp;[8Z*c]</li>
+        </ul>
+        <p><em>*Note: Digit stays a number. Symbol comes from Length.</em></p>
     </div>
 
     <div id="toast" class="toast">Secured in Clipboard</div>
 
 <script>
-    // CORE STATE
-    const Zodiac = {
-        key: "",
-        gridData: [], 
-        mask: false,
-        stream: "" // For PINs
-    };
-
-    // UTILS
-    const debounce = (fn, delay) => {
-        let timeout;
-        return (...args) => {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => fn(...args), delay);
-        };
-    };
-
-    // EVENTS
+    const Zodiac = { key: "", gridData: [], mask: false };
+    const debounce = (fn, delay) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), delay); }; };
     const runner = debounce(runZodiac, 200);
+
     document.getElementById('zCode').addEventListener('input', runner);
     document.getElementById('zText').addEventListener('input', runner);
 
-    // --- MAIN ENGINE ---
     function runZodiac() {
         let codeRaw = document.getElementById('zCode').value.replace(/[^0-9]/g, '');
-        // Limit master vector to 12 chars for sanity, but grid always generates 100 cells
         if (codeRaw.length > 12) { codeRaw = codeRaw.substring(0, 12); document.getElementById('zCode').value = codeRaw; }
-        
         const textRaw = document.getElementById('zText').value.replace(/[^a-zA-Z0-9\s]/g, '').trim();
         const display = document.getElementById('zOutput');
-        
-        // Print Header Update
-        document.getElementById('pVec').innerText = codeRaw;
-        document.getElementById('pEcho').innerText = textRaw;
 
         if (!codeRaw || !textRaw) {
             display.style.display = 'none';
@@ -406,10 +198,9 @@
 
         const words = textRaw.split(/\s+/);
         let masterPass = "";
-        let plantedIndices = [];
-        let t9Stream = "";
+        let plantedIndices = []; 
 
-        // 1. GENERATE MASTER KEY (The Vector Path)
+        // GENERATE MASTER KEY
         for(let i=0; i<codeRaw.length; i++) {
             let digitVal = parseInt(codeRaw[i]);
             let word = words[i % words.length];
@@ -418,62 +209,46 @@
             let seg = generateSegment(digitVal, word);
             masterPass += seg;
 
-            // Map this specific segment to the grid for visual verification
-            // Logic: Row = Digit, Col = Index (Cyclic 0-9)
             let gridIdx = (digitVal * 10) + (i % 10);
             plantedIndices.push({ idx: gridIdx, val: seg });
-            
-            // T9 Accumulation
-            t9Stream += generateT9(seg);
         }
 
         Zodiac.key = masterPass;
-        Zodiac.stream = t9Stream + codeRaw.split('').reverse().join(''); // Pad with reversed vector
 
-        // 2. GENERATE FULL 100-CELL HOLOGRAPHIC GRID
+        // GENERATE GRID
         let grid = new Array(100);
         for(let i=0; i<100; i++) {
             let plant = plantedIndices.find(p => p.idx === i);
             if (plant) {
                 grid[i] = { val: plant.val, type: 'plant' };
             } else {
-                // Deterministic Fill Logic
-                // We need a derived digit and a derived word to fill the gaps
                 let vecLen = codeRaw.length;
                 let vecDigit = parseInt(codeRaw[i % vecLen]); 
-                // Mix row number into digit to ensure variance across rows
                 let derivedDigit = (vecDigit + Math.floor(i / 10)) % 10; 
                 let word = words[i % words.length];
-                
                 let seg = generateSegment(derivedDigit, word);
                 grid[i] = { val: seg, type: 'matrix' };
             }
         }
         Zodiac.gridData = grid; 
 
-        // 3. RENDER & UPDATE
         renderGrid();
         document.getElementById('zFinalPass').innerText = masterPass;
         display.style.display = 'block';
-        
         applyMask();
-        runMiner(); // Update sub-tools
-        runPin();
+        runCompass();
     }
 
-    // --- SEGMENT GENERATOR (THE ATOMIC UNIT) ---
     function generateSegment(digit, word) {
-        if(!word) word = "ZODIAC"; 
-        
-        // Symbol Map (Length % 12)
-        const map = ["!","@","#","$","%","^","&","*","?","+","=","_"]; 
+        if(!word) word = "Zodiac"; 
+        // STANDARD DECADE MAP (0-9)
+        const map = [")","!","@","#","$","%","^","&","*","("]; 
         
         let head = word.charAt(0).toUpperCase();
         let tail = word.charAt(word.length - 1).toLowerCase();
         let len = word.length;
-        let sym = map[len % 12];
+        let sym = map[len % 10]; 
 
-        // Shuffle Rule (Digit % 4)
         let remainder = digit % 4;
         if (remainder === 0) return head + tail + digit + sym;
         if (remainder === 1) return sym + digit + head + tail;
@@ -481,15 +256,13 @@
         return digit + head + sym + tail;
     }
 
-    // --- GRID RENDERER ---
-    function renderGrid(activePathIndices = []) {
+    function renderGrid(highlightIndices = []) {
         const container = document.getElementById('zGridArea');
         container.innerHTML = '';
         const tbl = document.createElement('table');
         
-        // Header Row (0-9)
         const trH = document.createElement('tr');
-        trH.appendChild(document.createElement('th')); // Corner
+        trH.appendChild(document.createElement('th'));
         for(let i=0; i<10; i++) {
             let th = document.createElement('th');
             th.innerText = i;
@@ -497,7 +270,6 @@
         }
         tbl.appendChild(trH);
 
-        // Body Rows (0-9)
         for(let r=0; r<10; r++) {
             const tr = document.createElement('tr');
             let th = document.createElement('th');
@@ -508,15 +280,10 @@
                 const td = document.createElement('td');
                 let idx = (r * 10) + c;
                 let cell = Zodiac.gridData[idx];
+                td.innerText = cell.val;
                 
-                if(cell) {
-                    td.innerText = cell.val;
-                    if (activePathIndices.includes(idx)) {
-                        td.className = "active-path";
-                    } else if (cell.type === 'plant') {
-                        td.className = "planted";
-                    }
-                }
+                if (highlightIndices.includes(idx)) td.className = "active-path";
+                else if (cell.type === 'plant') td.className = "planted";
                 tr.appendChild(td);
             }
             tbl.appendChild(tr);
@@ -525,27 +292,23 @@
         applyMask();
     }
 
-    // --- SITE MINER (The Compass) ---
-    function runMiner() {
+    function runCompass() {
         let site = document.getElementById('siteName').value.toUpperCase().replace(/[^A-Z0-9]/g, '');
         if(!site || !Zodiac.gridData.length) {
-            document.getElementById('mineResult').innerText = "Waiting for input...";
-            renderGrid([]); // Clear highlights
+            document.getElementById('satResult').innerText = "Waiting for input...";
+            renderGrid([]); 
             return;
         }
 
         let minedPass = "";
         let indices = [];
 
-        // Map letters to coordinates
         for(let i=0; i<site.length; i++) {
             let charCode = site.charCodeAt(i);
             let val = 0;
+            if(charCode >= 48 && charCode <= 57) val = charCode - 48;
+            else if (charCode >= 65 && charCode <= 90) val = charCode - 65;
 
-            if(charCode >= 48 && charCode <= 57) val = charCode - 48; // 0-9
-            else if (charCode >= 65 && charCode <= 90) val = charCode - 65; // A-Z
-
-            // Coord Logic: Row = Value, Col = (Value + Index) % 10
             let r = val % 10;
             let c = (val + i) % 10;
             let gridIdx = (r * 10) + c;
@@ -553,48 +316,14 @@
             indices.push(gridIdx);
             minedPass += Zodiac.gridData[gridIdx].val;
         }
-
-        // Cap length for usability, but allow long strings
-        if(minedPass.length > 32) minedPass = minedPass.substring(0, 32);
-        
-        document.getElementById('mineResult').innerText = minedPass;
-        renderGrid(indices); // Highlight the path
+        if(minedPass.length > 24) minedPass = minedPass.substring(0, 24);
+        document.getElementById('satResult').innerText = minedPass;
+        renderGrid(indices); 
     }
 
-    // --- PIN FABRICATOR (T9) ---
-    function generateT9(str) {
-        // Simple T9 mapper
-        const t9 = {a:2,b:2,c:2,d:3,e:3,f:3,g:4,h:4,i:4,j:5,k:5,l:5,m:6,n:6,o:6,p:7,q:7,r:7,s:7,t:8,u:8,v:8,w:9,x:9,y:9,z:9};
-        return str.toLowerCase().split('').map(c => t9[c] || '').join('');
-    }
-
-    function runPin() {
-        let service = document.getElementById('pinName').value.replace(/[^a-zA-Z]/g, '').toLowerCase();
-        let len = parseInt(document.getElementById('pinLen').value);
-        
-        if(!Zodiac.stream) {
-            document.getElementById('pinResult').innerText = "Waiting...";
-            return;
-        }
-
-        // Offset logic based on Service Name (First + Last letter val)
-        let offset = 0;
-        if(service.length > 0) {
-            const t9 = {a:2,b:2,c:2,d:3,e:3,f:3,g:4,h:4,i:4,j:5,k:5,l:5,m:6,n:6,o:6,p:7,q:7,r:7,s:7,t:8,u:8,v:8,w:9,x:9,y:9,z:9};
-            let start = t9[service[0]] || 0;
-            let end = t9[service[service.length-1]] || 0;
-            offset = start + end;
-        }
-
-        // Ensure stream is long enough
-        let workStream = Zodiac.stream.repeat(5);
-        document.getElementById('pinResult').innerText = workStream.substring(offset, offset + len);
-    }
-
-    // --- UX TOOLS ---
     function loadSimulation() {
-        document.getElementById('zCode').value = "19690720"; // Moon Landing
-        document.getElementById('zText').value = "One small step for man one giant leap for mankind";
+        document.getElementById('zCode').value = "19690720"; 
+        document.getElementById('zText').value = "One small step for man one giant leap for mankind"; 
         document.getElementById('siteName').value = "NASA";
         runZodiac();
         toast("Simulation Loaded");
@@ -602,11 +331,10 @@
 
     function oracle() {
         const now = Date.now().toString();
-        const vec = now.slice(-8); // Last 8 digits of timestamp
+        const vec = now.slice(-8);
         const words = ["Alpha","Bravo","Charlie","Delta","Echo","Foxtrot","Golf","Hotel","India","Juliet"];
         let txt = "";
         for(let char of vec) txt += words[parseInt(char)] + " ";
-        
         document.getElementById('zCode').value = vec;
         document.getElementById('zText').value = txt.trim();
         runZodiac();
@@ -617,7 +345,6 @@
         document.getElementById('zCode').value = "";
         document.getElementById('zText').value = "";
         document.getElementById('siteName').value = "";
-        document.getElementById('pinName').value = "";
         runZodiac();
         toast("Wiped");
     }
@@ -625,14 +352,11 @@
     function toggleVis() {
         Zodiac.mask = !Zodiac.mask;
         const btn = document.getElementById('maskBtn');
+        const inputs = [document.getElementById('zCode'), document.getElementById('zText')];
         btn.innerText = Zodiac.mask ? "Privacy Mask: ON" : "Privacy Mask: OFF";
         btn.classList.toggle('active', Zodiac.mask);
-        
-        // Toggle Input visibility
         const type = Zodiac.mask ? "password" : "text";
-        document.getElementById('zCode').type = type;
-        document.getElementById('zText').type = type;
-        
+        inputs.forEach(el => el.type = type);
         applyMask();
     }
 
@@ -645,12 +369,14 @@
     }
 
     function copyKey() { writeClip(document.getElementById('zFinalPass').innerText); }
-    function copyMine() { writeClip(document.getElementById('mineResult').innerText); }
+    function copySat() { 
+        const val = document.getElementById('satResult').innerText;
+        if(val.includes("Waiting")) return;
+        writeClip(val); 
+    }
 
     function writeClip(txt) {
-        if(!txt || txt.includes("Waiting")) return;
-        navigator.clipboard.writeText(txt).then(() => toast("Copied to Clipboard"))
-        .catch(() => prompt("Manual Copy:", txt));
+        navigator.clipboard.writeText(txt).then(() => toast("Secured in Clipboard"));
     }
 
     function toast(msg) {
