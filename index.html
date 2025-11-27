@@ -3,608 +3,210 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zodiac Protocol v2.1</title>
-<meta name="description" content="Deterministic Holographic Identity Matrix.">
+<title>Zodiac Protocol: Identity Gateway</title>
+<meta name="description" content="Choose your identity survival path.">
 <style>
     /* -------------------------------------------------------
-       THE CHASSIS
+       GATEWAY AESTHETIC: MONOLITHIC & CALM
        ------------------------------------------------------- */
     :root {
         --bg: #050505;
-        --ink: #00ff41;
-        --dim: #444;
-        --text-dim: #777;
-        --panel: #111;
+        --card-bg: #0f0f0f;
         --border: #333;
-        --alert: #ff3333;
-        --accent: #00ccff; /* Cyan for Matrix Logic */
-        --guide-bg: #0e0e0e;
+        --text: #ccc;
+        --ink-ultimate: #00ccff; /* Cyan for Logic */
+        --ink-survival: #ff9900; /* Safety Orange */
+        --font: 'Courier New', Courier, monospace;
     }
 
     body {
-        font-family: 'Courier New', Courier, monospace;
         background-color: var(--bg);
-        color: #ccc;
+        color: var(--text);
+        font-family: var(--font);
+        margin: 0;
         padding: 40px;
-        max-width: 900px;
-        margin: 0 auto;
-        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
-    h1 {
-        color: var(--ink);
-        border-bottom: 2px solid var(--ink);
-        padding-bottom: 15px;
-        text-transform: uppercase;
-        letter-spacing: 4px;
+    /* HEADER */
+    .header {
         text-align: center;
-        margin-top: 0;
-        font-size: 1.6em;
+        margin-bottom: 50px;
+        animation: fadeIn 1s ease-in;
+    }
+    
+    h1 {
+        text-transform: uppercase;
+        letter-spacing: 6px;
+        font-size: 2em;
+        margin-bottom: 10px;
+        color: #fff;
+        border-bottom: 1px solid #333;
+        padding-bottom: 20px;
+        display: inline-block;
     }
 
     .subtitle {
-        color: var(--text-dim);
-        text-align: center;
-        margin-bottom: 40px;
         font-size: 0.8em;
+        color: #666;
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 2px;
     }
 
-    /* CONTROLS */
-    .z-controls {
-        background: var(--panel);
-        padding: 30px;
-        border: 1px solid var(--border);
-        margin-bottom: 30px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-    }
-
-    .z-row { display: flex; gap: 20px; margin-bottom: 20px; }
-    .z-group { flex: 1; display: flex; flex-direction: column; }
-    @media (max-width: 600px) { .z-row { flex-direction: column; } }
-
-    label {
-        font-size: 11px;
-        font-weight: bold;
-        color: var(--text-dim);
-        margin-bottom: 8px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        cursor: pointer;
-    }
-
-    input {
-        background: #000;
-        border: 1px solid #444;
-        color: #fff;
-        padding: 15px;
-        font-family: inherit;
-        font-size: 18px;
-        box-sizing: border-box;
-        transition: border 0.2s;
-        border-radius: 4px;
+    /* CARDS CONTAINER */
+    .cards-container {
+        display: flex;
+        gap: 30px;
+        max-width: 900px;
         width: 100%;
     }
-    input:focus { outline: none; border-color: var(--ink); }
-
-    /* BUTTONS */
-    .btn-row { display: flex; gap: 15px; flex-wrap: wrap; }
     
-    button {
-        padding: 12px 25px;
+    @media (max-width: 700px) {
+        .cards-container { flex-direction: column; }
+    }
+
+    /* THE CARD CHASSIS */
+    .card {
+        flex: 1;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        padding: 30px;
+        transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    /* CARD: ULTIMATE STYLE */
+    .card-ultimate:hover {
+        border-color: var(--ink-ultimate);
+        box-shadow: 0 0 30px rgba(0, 204, 255, 0.1);
+    }
+    .card-ultimate h2 { color: var(--ink-ultimate); }
+    .btn-ultimate { background: var(--ink-ultimate); color: #000; }
+
+    /* CARD: SURVIVAL STYLE */
+    .card-survival:hover {
+        border-color: var(--ink-survival);
+        box-shadow: 0 0 30px rgba(255, 153, 0, 0.1);
+    }
+    .card-survival h2 { color: var(--ink-survival); }
+    .btn-survival { background: var(--ink-survival); color: #000; }
+
+    /* CARD CONTENT */
+    h2 {
+        font-size: 1.2em;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-top: 0;
+        border-bottom: 1px solid #222;
+        padding-bottom: 15px;
+    }
+
+    .status-badge {
+        font-size: 10px;
         font-weight: bold;
         text-transform: uppercase;
-        cursor: pointer;
-        font-size: 11px;
-        border: none;
-        border-radius: 4px;
-        letter-spacing: 1px;
-        transition: all 0.2s;
-    }
-
-    .btn-random { background: #222; color: #888; border: 1px solid #444; }
-    .btn-random:hover { background: #fff; color: #000; }
-    
-    .btn-demo { background: var(--accent); color: #000; border: none; }
-    .btn-demo:hover { background: #fff; }
-
-    .btn-copy { background: var(--ink); color: #000; }
-    .btn-copy:hover { background: #fff; }
-
-    .btn-panic { background: #220000; color: var(--alert); border: 1px solid #550000; margin-left: auto; }
-    .btn-panic:hover { background: var(--alert); color: #000; }
-
-    .btn-mask { background: #111; color: #666; border: 1px solid #444; }
-    .btn-mask.active { background: #333; color: #fff; border-color: #fff; }
-
-    /* OUTPUT SCREEN */
-    .z-screen {
-        display: none;
-        background: #000;
-        border: 2px dashed var(--dim);
-        padding: 20px;
-        text-align: center;
-        margin-bottom: 40px;
-        position: relative;
-    }
-
-    .z-key {
-        display: block;
-        color: #fff;
-        font-size: 24px;
-        font-weight: bold;
-        letter-spacing: 2px;
-        margin: 15px 0;
-        word-break: break-all;
-        transition: filter 0.2s;
-    }
-
-    /* MASKING */
-    .masked .z-key, .masked .sat-out, .masked .planted {
-        filter: blur(6px);
-        user-select: none;
-        cursor: not-allowed;
-    }
-    .masked .z-key:hover, .masked .sat-out:hover {
-        filter: blur(0);
-        cursor: text;
-    }
-
-    /* STRATEGY CONSOLE */
-    .z-strategy {
-        margin-top: 40px;
-        border-top: 1px solid var(--dim);
-        padding-top: 20px;
-        display: none;
-    }
-    .z-strat-block {
-        background: #111;
-        border: 1px solid #333;
-        padding: 15px;
+        padding: 4px 8px;
+        border-radius: 2px;
+        background: #222;
+        color: #888;
+        align-self: flex-start;
         margin-bottom: 15px;
     }
-    .z-strat-title {
-        font-size: 10px; color: var(--accent); font-weight: bold; text-transform: uppercase; margin-bottom: 10px; display: block;
+
+    p {
+        font-size: 13px;
+        line-height: 1.6;
+        flex-grow: 1;
+        color: #999;
     }
-    
-    .sat-row { display: flex; gap: 10px; align-items: center; }
-    .sat-out { font-family: monospace; color: #fff; font-weight: bold; flex: 1; word-break: break-all; font-size: 18px; transition: filter 0.2s; }
 
-    /* GRID */
-    .grid-wrapper { overflow-x: auto; border: 1px solid var(--border); margin-top: 20px; transition: filter 0.2s; }
-    table { width: 100%; border-collapse: collapse; min-width: 500px; table-layout: fixed; }
-    th { background: #111; color: #666; padding: 8px; font-size: 10px; border: 1px solid #222; }
-    td { border: 1px solid #222; padding: 8px 2px; text-align: center; color: #555; font-family: monospace; white-space: nowrap; overflow: hidden; font-size: 12px; }
-    
-    /* Highlight Logic */
-    td.active-mine { background: var(--accent); color: #000; font-weight: bold; border-color: #fff; }
-    td.planted { color: var(--ink); font-weight: bold; background: rgba(0,255,65,0.05); }
-
-    /* MANUAL / GUIDE */
-    .z-manual, .z-deep-manual { margin-top: 50px; border-top: 1px solid var(--border); padding-top: 20px; color: #888; font-size: 12px; line-height: 1.6; }
-    .z-deep-manual { background: #080808; padding: 20px; border: 1px solid #222; margin-top: 20px; }
-    
-    .hl { color: var(--ink); font-weight: bold; }
-    .hl-odd { color: var(--accent); font-weight: bold; }
-    
-    .map-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; margin: 10px 0; font-family: monospace; font-size: 11px; }
-    .map-item { background: #111; padding: 5px; text-align: center; border: 1px solid #333; }
-    .map-item strong { color: #fff; display: block; }
-
-    /* TOAST */
-    .toast {
-        visibility: hidden;
-        min-width: 250px;
-        background-color: var(--ink);
-        color: #000;
-        text-align: center;
-        border-radius: 2px;
-        padding: 16px;
-        position: fixed;
-        z-index: 100;
-        left: 50%;
-        bottom: 30px;
-        transform: translateX(-50%);
-        font-weight: bold;
-        box-shadow: 0 0 20px rgba(0,255,65,0.4);
-        opacity: 0;
-        transition: opacity 0.3s, bottom 0.3s;
+    ul {
+        padding-left: 20px;
+        margin-bottom: 25px;
         font-size: 12px;
-        text-transform: uppercase;
+        color: #777;
     }
-    .toast.show { visibility: visible; opacity: 1; bottom: 50px; }
+    li { margin-bottom: 5px; }
 
-    @media print {
-        body { background: white; color: black; padding: 0; }
-        .z-controls, .z-screen, .z-strategy, .btn-row, button { display: none !important; }
-        .grid-wrapper { border: none; display: block !important; }
-        table { border: 2px solid black; font-size: 10px; }
-        th { color: black !important; background: #ddd !important; border: 1px solid black !important; }
-        td { border: 1px solid black !important; color: black !important; font-weight: normal !important; }
-        td.planted { background: #eee !important; font-weight: bold !important; }
-        .z-manual, .z-deep-manual { display: block !important; color: black !important; background: white; border: 1px solid #ccc; }
-        .map-item { background: #eee; border: 1px solid #999; }
-        .map-item strong { color: #000; }
-        h1, .subtitle { text-align: left; border: none; }
+    .btn {
+        display: block;
+        text-align: center;
+        padding: 15px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-radius: 2px;
+        margin-top: auto;
     }
+
+    /* FOOTER */
+    .footer {
+        margin-top: 50px;
+        font-size: 10px;
+        color: #444;
+        text-align: center;
+    }
+
+    @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 </style>
 </head>
 <body>
 
-    <h1>The Zodiac Protocol</h1>
-    <div class="subtitle">Deterministic Holographic Matrix | v2.1</div>
-
-    <div class="z-controls">
-        <div class="z-row">
-            <div class="z-group">
-                <label for="zCode">1. The Vector (Numbers Only)</label>
-                <input type="text" id="zCode" placeholder="e.g. 19850524" maxlength="12" pattern="\d*" autocomplete="off">
-            </div>
-            <div class="z-group">
-                <label for="zText">2. The Echo (Phrase)</label>
-                <input type="text" id="zText" placeholder="e.g. Where we are going we dont need roads" autocomplete="off">
-            </div>
-        </div>
-        
-        <div class="btn-row">
-            <button class="btn-demo" onclick="loadDemo()">⚡ Load Simulation</button>
-            <button class="btn-random" onclick="window.print()">🖨️ Print Backup</button>
-            <button class="btn-panic" onclick="wipe()">⚠️ WIPE</button>
-        </div>
+    <div class="header">
+        <h1>Zodiac Protocol</h1>
+        <div class="subtitle">Deep Time Identity Management</div>
     </div>
 
-    <div id="zOutput" class="z-screen">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <label style="font-size:10px; color:#888; font-weight:bold;">ZODIAC MASTER KEY</label>
-            <button id="maskBtn" class="btn-mask" style="padding:4px 8px; font-size:9px;" onclick="toggleVis()">Privacy Mask: OFF</button>
-        </div>
+    <div class="cards-container">
         
-        <span id="zFinalPass" class="z-key">---</span>
-        <button class="btn-copy" onclick="copyKey()">Copy Master Key</button>
-    </div>
+        <!-- CARD 1: ULTIMATE (LOGIC & GRID) -->
+        <a href="zodiac_ultimate.html" class="card card-ultimate">
+            <span class="status-badge">Recommended for Engineers</span>
+            <h2>Ultimate Edition</h2>
+            <p>
+                The complete cryptographic suite. Uses a 100-cell Holographic Grid to mine site-specific passwords using coordinate geometry.
+            </p>
+            <ul>
+                <li><strong>Security:</strong> Maximum (Visual Privacy Mask).</li>
+                <li><strong>System:</strong> Vector + Echo + Grid Mining.</li>
+                <li><strong>Recovery:</strong> Requires reconstructing a 10x10 grid.</li>
+                <li><strong>Best For:</strong> High-value vaults, long-term archiving.</li>
+            </ul>
+            <span class="btn btn-ultimate">Initialize Ultimate &rarr;</span>
+        </a>
 
-    <!-- STRATEGY CONSOLE -->
-    <div id="zStrat" class="z-strategy">
-        <div class="z-strat-block">
-            <span class="z-strat-title">The Compass (Site-Specific Mining)</span>
-            <div class="sat-row">
-                <input type="text" id="siteName" placeholder="Site Name (e.g. Office365)" style="flex:1; font-size:14px; padding:12px;" autocomplete="off" oninput="runCompass()">
-                <div id="satResult" class="sat-out" style="font-size:16px;">---</div>
-                <button class="btn-copy" style="padding:10px 15px;" onclick="copySat()">COPY</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="zGridArea" class="grid-wrapper"></div>
-
-    <!-- FIELD OPERATIONS MANUAL (THE DIRT PROTOCOL) -->
-    <div class="z-deep-manual">
-        <strong style="color:var(--accent); font-size:1.1em; display:block; margin-bottom:10px;">FIELD OPERATIONS MANUAL: RECONSTRUCTION "IN THE DIRT"</strong>
-        
-        <p>If you lose this file or device, you can mentally reconstruct any password using the rules below. You do not need to calculate the full 100-cell grid. You only need to calculate the segments required for your target.</p>
-
-        <p><strong>1. THE SYMBOL MAP (Length % 12)</strong><br>
-        To determine a segment's symbol, take the length of the word in your Echo phrase. If the word is "Going" (5 letters), the symbol is 5.</p>
-        <div class="map-grid">
-            <div class="map-item"><strong>!</strong>len: 0</div>
-            <div class="map-item"><strong>@</strong>len: 1</div>
-            <div class="map-item"><strong>#</strong>len: 2</div>
-            <div class="map-item"><strong>$</strong>len: 3</div>
-            <div class="map-item"><strong>%</strong>len: 4</div>
-            <div class="map-item"><strong>^</strong>len: 5</div>
-            <div class="map-item"><strong>&</strong>len: 6</div>
-            <div class="map-item"><strong>*</strong>len: 7</div>
-            <div class="map-item"><strong>?</strong>len: 8</div>
-            <div class="map-item"><strong>+</strong>len: 9</div>
-            <div class="map-item"><strong>=</strong>len: 10</div>
-            <div class="map-item"><strong>_</strong>len: 11</div>
-        </div>
-
-        <p><strong>2. THE ROTATION (Digit % 4)</strong><br>
-        To arrange the segment, take your Digit and divide by 4. The <strong>Remainder (R)</strong> dictates the order.</p>
-        <ul style="list-style:none; padding:0; font-family:monospace;">
-            <li><span class="hl">R=0</span> (e.g. 4, 8): Head + Tail + Digit + Sym &nbsp;&nbsp;[Zodiac -> Zc4&]</li>
-            <li><span class="hl">R=1</span> (e.g. 5, 9): Sym + Digit + Head + Tail &nbsp;&nbsp;[Zodiac -> &5Zc]</li>
-            <li><span class="hl">R=2</span> (e.g. 2, 6): Tail + Sym + Head + Digit &nbsp;&nbsp;[Zodiac -> c&Z2]</li>
-            <li><span class="hl">R=3</span> (e.g. 3, 7): Digit + Head + Sym + Tail &nbsp;&nbsp;[Zodiac -> 3Z&c]</li>
-        </ul>
-
-        <p><strong>3. THE COMPASS DECODER</strong><br>
-        To find the grid coordinates for a Site (e.g. "GMAIL"), convert letters to numbers. Add the letter's position index to avoid collisions.</p>
-        <div class="map-grid">
-            <div class="map-item">A=0</div> <div class="map-item">B=1</div> <div class="map-item">C=2</div>
-            <div class="map-item">D=3</div> <div class="map-item">E=4</div> <div class="map-item">F=5</div>
-            <div class="map-item">G=6</div> <div class="map-item">H=7</div> <div class="map-item">I=8</div>
-            <div class="map-item">J=9</div> <div class="map-item">K=0</div> <div class="map-item">L=1</div>
-        </div>
-        <div style="margin-top:5px; font-size:10px;">*Logic is (ASCII - 65) % 10. Letters wrap every 10 characters.</div>
+        <!-- CARD 2: SURVIVAL (MEMORY & PRISM) -->
+        <a href="zodiac_survival.html" class="card card-survival">
+            <span class="status-badge">Recommended for Field Use</span>
+            <h2>Survival Edition</h2>
+            <p>
+                A stripped-down linear generator. Uses the "Prism" logic to derive service passwords directly from a single Master Chain.
+            </p>
+            <ul>
+                <li><strong>Security:</strong> High (Odd/Even Shuffling).</li>
+                <li><strong>System:</strong> Vector + Echo + Linear Offset.</li>
+                <li><strong>Recovery:</strong> Pure mental math (No grid drawing).</li>
+                <li><strong>Best For:</strong> High stress, limited tools, fast recall.</li>
+            </ul>
+            <span class="btn btn-survival">Initialize Survival &rarr;</span>
+        </a>
 
     </div>
 
-    <div id="toast" class="toast" role="status" aria-live="polite">Secured in Clipboard</div>
-
-<script>
-    const Zodiac = {
-        key: "",
-        gridData: [], 
-        mask: false,
-        vecSum: 0
-    };
-
-    function debounce(func, timeout = 300){
-        let timer;
-        return (...args) => {
-            clearTimeout(timer);
-            timer = setTimeout(() => { func.apply(this, args); }, timeout);
-        };
-    }
-
-    const processZodiac = debounce(() => runZodiac());
-
-    document.getElementById('zCode').addEventListener('input', processZodiac);
-    document.getElementById('zText').addEventListener('input', processZodiac);
-
-    function runZodiac() {
-        let codeRaw = document.getElementById('zCode').value.replace(/[^0-9]/g, '');
-        // Limit master key generation loop to 12 chars
-        if (codeRaw.length > 12) { codeRaw = codeRaw.substring(0, 12); document.getElementById('zCode').value = codeRaw; }
-        
-        const textRaw = document.getElementById('zText').value.replace(/[^a-zA-Z0-9\s]/g, '').trim();
-        const display = document.getElementById('zOutput');
-        const strat = document.getElementById('zStrat');
-
-        if (!codeRaw || !textRaw) {
-            display.style.display = 'none';
-            strat.style.display = 'none';
-            document.getElementById('zGridArea').innerHTML = '';
-            Zodiac.key = "";
-            return;
-        }
-
-        const words = textRaw.split(/\s+/);
-        
-        let masterPass = "";
-        let vecTotal = 0;
-        let plantedIndices = []; 
-
-        // --- PHASE 1: GENERATE MASTER KEY ---
-        for(let i=0; i<codeRaw.length; i++) {
-            let digitVal = parseInt(codeRaw[i]);
-            vecTotal += digitVal;
-            
-            let word = words[i % words.length];
-            if(!word) continue;
-
-            let seg = generateSegment(digitVal, word);
-            masterPass += seg;
-
-            // Mapping Vector Digits to Grid Coordinates
-            // Row = Digit, Col = Index (Cyclic)
-            let gridIdx = (digitVal * 10) + (i % 10);
-            plantedIndices.push({ idx: gridIdx, val: seg });
-        }
-
-        Zodiac.key = masterPass;
-        Zodiac.vecSum = vecTotal;
-
-        // --- PHASE 2: HOLOGRAPHIC GRID FILL ---
-        let grid = new Array(100);
-        for(let i=0; i<100; i++) {
-            let plant = plantedIndices.find(p => p.idx === i);
-            if (plant) {
-                grid[i] = { val: plant.val, type: 'plant' };
-            } else {
-                // Derived Logic: 
-                // VDigit = (VectorDigit[cyclical] + RowNum) % 10
-                let vecLen = codeRaw.length;
-                let vecDigit = parseInt(codeRaw[i % vecLen]); 
-                let derivedDigit = (vecDigit + Math.floor(i / 10)) % 10; 
-                let word = words[i % words.length];
-                let seg = generateSegment(derivedDigit, word);
-                grid[i] = { val: seg, type: 'matrix' };
-            }
-        }
-        Zodiac.gridData = grid; 
-
-        // RENDER
-        renderGrid();
-        document.getElementById('zFinalPass').innerText = masterPass;
-        display.style.display = 'block';
-        strat.style.display = 'block';
-        applyMask();
-        runCompass();
-    }
-
-    // CORE ALGORITHM: 
-    // This matches the "Field Operations Manual" exactly.
-    function generateSegment(digit, word) {
-        if(!word) word = "Zodiac"; 
-        // 12 Symbols Map (Length % 12)
-        const map = ["!","@","#","$","%","^","&","*","?","+","=","_"]; 
-        
-        let head = word.charAt(0).toUpperCase();
-        let tail = word.charAt(word.length - 1).toLowerCase();
-        let len = word.length;
-        let sym = map[len % 12]; // Matches manual modulo 12 rule
-
-        // Modulo 4 Rotation Rule
-        const patterns = [
-            () => head + tail + digit + sym, // Remainder 0
-            () => sym + digit + head + tail, // Remainder 1
-            () => tail + sym + head + digit, // Remainder 2
-            () => digit + head + sym + tail  // Remainder 3
-        ];
-
-        return patterns[digit % 4]();
-    }
-
-    function renderGrid(highlightIndices = []) {
-        const container = document.getElementById('zGridArea');
-        container.innerHTML = '';
-        const tbl = document.createElement('table');
-        
-        // Headers (0-9)
-        const trH = document.createElement('tr');
-        trH.appendChild(document.createElement('th'));
-        for(let i=0; i<10; i++) {
-            let th = document.createElement('th');
-            th.innerText = i;
-            trH.appendChild(th);
-        }
-        tbl.appendChild(trH);
-
-        // Rows (0-9)
-        for(let r=0; r<10; r++) {
-            const tr = document.createElement('tr');
-            let th = document.createElement('th');
-            th.innerText = r;
-            tr.appendChild(th);
-
-            for(let c=0; c<10; c++) {
-                const td = document.createElement('td');
-                let idx = (r * 10) + c;
-                let cell = Zodiac.gridData[idx];
-                td.innerText = cell.val;
-                
-                if (highlightIndices.includes(idx)) {
-                    td.className = "active-mine";
-                } else if (cell.type === 'plant') {
-                    td.className = "planted";
-                }
-                tr.appendChild(td);
-            }
-            tbl.appendChild(tr);
-        }
-        container.appendChild(tbl);
-        applyMask();
-    }
-
-    // COMPASS: Maps Site Name Strings to Grid Coordinates
-    function runCompass() {
-        let site = document.getElementById('siteName').value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-        if(!site || !Zodiac.gridData.length) {
-            document.getElementById('satResult').innerText = "Waiting for input...";
-            renderGrid([]); 
-            return;
-        }
-
-        let minedPass = "";
-        let indices = [];
-
-        for(let i=0; i<site.length; i++) {
-            let charCode = site.charCodeAt(i);
-            let val = 0;
-
-            // Digits 0-9
-            if(charCode >= 48 && charCode <= 57) {
-                val = charCode - 48;
-            } 
-            // Letters A-Z (ASCII 65=A)
-            // Val = ASCII - 65. (A=0, B=1...)
-            else if (charCode >= 65 && charCode <= 90) {
-                val = charCode - 65;
-            }
-
-            // Coordinate Logic: 
-            // Row = Val % 10
-            // Col = (Val + Position) % 10
-            let r = val % 10;
-            let c = (val + i) % 10;
-            
-            let gridIdx = (r * 10) + c;
-            indices.push(gridIdx);
-            minedPass += Zodiac.gridData[gridIdx].val;
-        }
-
-        if(minedPass.length > 24) minedPass = minedPass.substring(0, 24);
-        document.getElementById('satResult').innerText = minedPass;
-        renderGrid(indices); 
-    }
-
-    // SIMULATION LOADER
-    function loadDemo() {
-        // Robust example that uses various word lengths and digits
-        const d = "19690720"; // Moon Landing
-        const t = "One small step for man one giant leap for mankind"; 
-        
-        document.getElementById('zCode').value = d;
-        document.getElementById('zText').value = t;
-        document.getElementById('siteName').value = "NASA";
-        
-        runZodiac();
-        
-        // Show Toast
-        const toast = document.getElementById('toast');
-        toast.innerText = "Simulation Loaded";
-        toast.className = "toast show";
-        setTimeout(() => toast.className = toast.className.replace("show", ""), 2000);
-    }
-
-    function wipe() {
-        document.getElementById('zCode').value = "";
-        document.getElementById('zText').value = "";
-        document.getElementById('siteName').value = "";
-        runZodiac();
-    }
-
-    function toggleVis() {
-        Zodiac.mask = !Zodiac.mask;
-        const btn = document.getElementById('maskBtn');
-        const inputs = [document.getElementById('zCode'), document.getElementById('zText')];
-        
-        btn.innerText = Zodiac.mask ? "Privacy Mask: ON" : "Privacy Mask: OFF";
-        
-        if(Zodiac.mask) {
-            btn.classList.add('active');
-            inputs.forEach(el => el.type = "password");
-        } else {
-            btn.classList.remove('active');
-            inputs.forEach(el => el.type = "text");
-        }
-        applyMask();
-    }
-
-    function applyMask() {
-        const areas = [document.getElementById('zOutput'), document.getElementById('zStrat'), document.getElementById('zGridArea')];
-        areas.forEach(a => {
-            if(Zodiac.mask) a.classList.add('masked');
-            else a.classList.remove('masked');
-        });
-    }
-
-    function copyKey() { writeClip(document.getElementById('zFinalPass').innerText); }
-    function copySat() { 
-        const val = document.getElementById('satResult').innerText;
-        if(val.includes("Waiting")) return;
-        writeClip(val); 
-    }
-
-    function writeClip(txt) {
-        if (!navigator.clipboard) {
-            const textArea = document.createElement("textarea");
-            textArea.value = txt;
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                const t = document.getElementById("toast");
-                t.innerText = "Secured in Clipboard";
-                t.className = "toast show";
-                setTimeout(() => t.className = t.className.replace("show", ""), 3000);
-            } catch (err) {}
-            document.body.removeChild(textArea);
-            return;
-        }
-        navigator.clipboard.writeText(txt).then(() => {
-            const t = document.getElementById("toast");
-            t.innerText = "Secured in Clipboard";
-            t.className = "toast show";
-            setTimeout(() => t.className = t.className.replace("show", ""), 3000);
-        });
-    }
-</script>
+    <div class="footer">
+        STATUS: OFFLINE_READY &nbsp;|&nbsp; DEPENDENCIES: ZERO &nbsp;|&nbsp; STORAGE: LOCAL
+    </div>
 
 </body>
 </html>
